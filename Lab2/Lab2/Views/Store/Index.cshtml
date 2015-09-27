@@ -1,0 +1,52 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+}
+
+<h1>Welcome</h1>
+<hr />
+<p class="alert-info">Buy today to get free delivery to your classroom!</p>
+
+<div class="row">
+    <div class="col-lg-6">
+        <section>
+            <h4>Select a book</h4>
+            <hr />
+            <select class="form-control">
+                <option>Object Oriented Programming in C#</option>
+                <option>Web Programming in PHP</option>
+                <option>ASP.NET Web Application Development</option>
+                <option>Java Programming in 21 Days</option>
+                <option>Advanced Database Topics</option>
+            </select>
+        </section>
+
+        <section>
+            <h4>Description</h4>
+            <hr />
+            <p>
+                All managed languages in the .NET Framework, such as Visual Basic and C#, provide full support for object-oriented programming including encapsulation,
+                inheritance, and polymorphism. Encapsulation means that a group of related properties, methods, and other members are treated as a single unit or object.
+                Inheritance describes the ability to create new classes based on an existing class.
+            </p>
+        </section>
+    </div>
+
+    <div class="col-lg-5 pull-right"> 
+        <section>
+            <h4>Item Details</h4>
+            <hr />
+            <button type="button" class="btn btn-success btn-xs" disabled><i class="fa fa-check"></i> In stock!</button>
+            <button type="button" class="btn btn-info btn-xs" disabled><i class="fa fa-dollar"></i> 19.99</button>
+
+            <form class="order-form form-inline">
+                <div class="form-group">
+                    <label class="sr-only" for="quantity">Quantity</label>
+                    <input type="text" class="form-control input-sm" id="quantity" placeholder="Enter quantity">
+                </div>
+
+                <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-cart-plus"></i> Add to Cart</button>
+            </form>
+        </section>
+    </div>
+</div>
