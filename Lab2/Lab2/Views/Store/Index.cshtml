@@ -1,4 +1,7 @@
-﻿
+﻿@using System.Reflection.Emit
+@using Lab2.Models
+@using Lab2.ViewModels
+@model Lab2.ViewModels.BookViewModel
 @{
     ViewBag.Title = "Index";
 }
@@ -11,23 +14,25 @@
     <div class="col-lg-6">
         <section>
             <h4>Select a book</h4>
-            <hr />
-            <select class="form-control">
-                <option>Object Oriented Programming in C#</option>
-                <option>Web Programming in PHP</option>
-                <option>ASP.NET Web Application Development</option>
-                <option>Java Programming in 21 Days</option>
-                <option>Advanced Database Topics</option>
-            </select>
+            <hr/>
+            @using (Html.BeginForm(FormMethod.Post))
+            {
+                @Html.DropDownListFor(bookViewModel => bookViewModel.SelectedValue,
+                         new SelectList(Model.BookData, "Id", "Title"), 
+                    "Please select a book", 
+                    new { @onchange = "this.form.submit();", @class = "form-control" })
+                
+                
+                //@Html.LabelFor(model => model.Description, "Description", htmlAttributes: new { @class = "control-label" })
+            }
+            
         </section>
 
         <section>
             <h4>Description</h4>
             <hr />
             <p>
-                All managed languages in the .NET Framework, such as Visual Basic and C#, provide full support for object-oriented programming including encapsulation,
-                inheritance, and polymorphism. Encapsulation means that a group of related properties, methods, and other members are treated as a single unit or object.
-                Inheritance describes the ability to create new classes based on an existing class.
+
             </p>
         </section>
     </div>
