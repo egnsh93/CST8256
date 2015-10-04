@@ -30,12 +30,23 @@ namespace Lab2.Controllers
         [HttpPost]
         public ActionResult Index(BookViewModel bookViewModel)
         {
-            // Get book data from repo based on selected book in the view
-            var book = BookRepository.GetBookById(bookViewModel.Id);
+            // Repopulate Book Collection on post
+            bookViewModel.BookData = BookRepository.GetAllBookData();
 
-            // TODO: Get selected ID from view and display book info
+            // Get book data from repo based on selected book in the view
+            var book = BookRepository.GetBookById(bookViewModel.BookId);
+
+            // Set the view model properties for the current book
+            bookViewModel.Title = book.Title;
+            bookViewModel.Description = book.Description;
+            bookViewModel.Price = book.Price;
 
             // Send viewmodel into the view
+            return View(bookViewModel);
+        }
+
+        public ActionResult AddToCart(BookViewModel bookViewModel)
+        {
             return View(bookViewModel);
         }
 
