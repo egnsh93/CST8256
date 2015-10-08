@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Linq;
 using System.Web.Mvc;
+using Lab2.Models;
 using Lab2.Repositories;
 using Lab2.ViewModels;
 
@@ -16,13 +14,18 @@ namespace Lab2.Controllers
             // Get book data from repo
             var bookRepository = BookRepository.GetAllBookData();
 
+            // Remove already added books from the dropdown list
+            foreach (var order in OrderRepository.RetrieveAllOrders())
+            {
+                bookRepository.Remove(bookRepository.Single(b => b.Id == order.Book.Id));
+            }
+
             // Instantiate the viewmodel
             var bookViewModel = new BookViewModel
             {
                 BookData = bookRepository
             };
 
-            // Send viewmodel into the view
             return View("Index", bookViewModel);
         }
 
@@ -41,19 +44,56 @@ namespace Lab2.Controllers
             bookViewModel.Description = book.Description;
             bookViewModel.Price = book.Price;
 
-            // Send viewmodel into the view
-            return View(bookViewModel);
-        }
+            // Store the bookViewModel in the session
+            Session["BookData"] = bookViewModel;
 
-        public ActionResult AddToCart(BookViewModel bookViewModel)
-        {
-            return View(bookViewModel);
+            return View("Index", bookViewModel);
         }
 
         // GET: Cart
         public ActionResult Cart()
         {
-            return View();
+            var cartViewModel = new CartViewModel
+            {
+                BookOrders = OrderRepository.RetrieveAllOrders()
+            };
+
+            return View("Cart", cartViewModel);
+        }
+
+        // POST: Add to Cart
+        [HttpPost]
+        public ActionResult Cart(CartViewModel cartViewModel)
+        {
+            // Get the book session data
+            var bookViewModel = (BookViewModel)Session["BookData"];
+
+            // Check for valid number of copies
+            if (cartViewModel.NumCopies < 1)
+                ModelState.AddModelError("NumCopies", "Quantity must be greater than zero");  
+  
+
+            if (!ModelState.IsValid)
+                return View("Index", bookViewModel);
+
+            // Create a new book order with the selected book
+            var order = new Order(BookRepository.GetBookById(bookViewModel.BookId), cartViewModel.NumCopies);
+
+            // Save the order to the repository
+            OrderRepository.SaveOrder(order);
+
+            cartViewModel.BookOrders = OrderRepository.RetrieveAllOrders();
+
+            return RedirectToAction("Cart", cartViewModel);
+        }
+
+        public ActionResult EmptyCart()
+        {
+            // Clear the session and order repo (cart)
+            Session["BookData"] = null;
+            OrderRepository.RemoveAllorders();
+
+            return RedirectToAction("Cart");
         }
     }
 }
