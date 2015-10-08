@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using Lab2.Models;
 
 namespace Lab2.Repositories
@@ -19,7 +16,7 @@ namespace Lab2.Repositories
             return bookList.FirstOrDefault(book => book.Id == id);
         }
 
-        public static IEnumerable<Book> GetAllBookData()
+        public static List<Book> GetAllBookData()
         {
             // Define the model data for each book
             var bookList = new List<Book>
