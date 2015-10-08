@@ -1,5 +1,4 @@
-﻿@using System.Reflection.Emit
-@model Lab2.ViewModels.BookViewModel
+﻿@model Lab2.ViewModels.BookViewModel
 @{
     ViewBag.Title = "Index";
 }
@@ -16,7 +15,7 @@
             @using (Html.BeginForm(FormMethod.Post))
             {
                 @Html.DropDownListFor(m => m.BookId,
-                    new SelectList(Model.BookData, "Id", "Title", Model.BookId),
+                    new SelectList(Model.BookData, "Id", "Title"),
                     "Please select a book",
                     new { @onchange = "this.form.submit();", @class = "form-control" })
             }
@@ -33,22 +32,18 @@
         <section>
             <h4>Item Details</h4>
             <hr />
-            <button type="button" class="btn btn-success btn-xs" disabled><i class="fa fa-check"></i> In stock!</button>
-            <button type="button" class="btn btn-info btn-xs" disabled><i class="fa fa-dollar"></i> @Model.Price</button>
+            <button type="button" class="btn btn-info btn-sm" disabled>@Html.DisplayFor(m => m.Price)</button>
 
-            @using (Html.BeginForm("AddToCart", "StoreController", FormMethod.Post))
+            @using (Html.BeginForm("Cart", "Store", FormMethod.Post, new { @class = "order-form form-inline" }))
             {
-
-            }
-
-            <form class="order-form form-inline">
                 <div class="form-group">
-                    <label class="sr-only" for="quantity">Quantity</label>
-                    <input type="text" class="form-control input-sm" id="quantity" placeholder="Enter quantity">
+                    @Html.LabelFor(model => model.NumCopies, new { @class = "sr-only" })
+                    @Html.TextBoxFor(model => model.NumCopies, new { @class = "form-control input-sm", @placeholder = "Enter quantity", @value = "" })
+                    @Html.ValidationMessageFor(model => model.NumCopies)
                 </div>
 
                 <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-cart-plus"></i> Add to Cart</button>
-            </form>
+            }
         </section>
     </div>
 </div>

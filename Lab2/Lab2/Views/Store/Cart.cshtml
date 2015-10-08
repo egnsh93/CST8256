@@ -1,4 +1,5 @@
-﻿
+﻿@using Lab2.ViewModels
+@model CartViewModel
 @{
     ViewBag.Title = "Cart";
 }
@@ -12,43 +13,36 @@
             <th>Title</th>
             <th>Quantity</th>
             <th>Subtotal</th>
-            <th>Action</th>
         </tr>
     </thead>
     <tbody>
+    @foreach (var order in Model.BookOrders)
+    {
         <tr>
-            <td>Object Oriented Programming in C#</td>
-            <td>2</td>
-            <td>$91</td>
-            <td><button type="button" class="close pull-left" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
+            <td>@order.Book.Title</td>
+            <td>@order.NumCopies</td>
+            <td>$@order.SubTotal</td>
         </tr>
+    }
+
+    @if (Model.BookOrders.Count == 0)
+    {
         <tr>
-            <td>Object Oriented Programming in C#</td>
-            <td>2</td>
-            <td>$91</td>
-            <td><button type="button" class="close pull-left" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
+            <td colspan="3">There are no items in your shopping cart!</td>
         </tr>
+    }
+    else
+    {
         <tr>
-            <td>Object Oriented Programming in C#</td>
-            <td>2</td>
-            <td>$91</td>
-            <td><button type="button" class="close pull-left" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
+            <td><strong>Total:</strong></td>
+            <td></td>
+            <td colspan="3"><strong>$@Model.TotalAmountPayable</strong></td>
         </tr>
-        <tr>
-            <td>Object Oriented Programming in C#</td>
-            <td>2</td>
-            <td>$91</td>
-            <td><button type="button" class="close pull-left" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
-        </tr>
-        <tr>
-            <td>Object Oriented Programming in C#</td>
-            <td>2</td>
-            <td>$91</td>
-            <td><button type="button" class="close pull-left" aria-label="Close"><span aria-hidden="true">&times;</span></button></td>
-        </tr>
+    }
+
     </tbody>
 </table>
 
-<button type="button" class="btn btn-primary">Continue Shopping</button>
-<button type="button" class="btn btn-danger">Empty Cart</button>
+<a class="btn btn-primary" href="@Url.Action("Index", "Store")">Continue Shopping</a>
+<a class="btn btn-danger" href="@Url.Action("EmptyCart", "Store")">Empty Cart</a>
 
