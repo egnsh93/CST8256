@@ -1,10 +1,11 @@
-﻿using Microsoft.Owin;
-using Owin;
+﻿using Lab2;
+using Microsoft.Owin;
 
-[assembly: OwinStartupAttribute(typeof(Lab2.Startup))]
+[assembly: OwinStartup(typeof (Startup))]
+
 namespace Lab2
 {
-    public partial class Startup
+    public class Startup
     {
     }
 }

@@ -66,12 +66,12 @@ namespace Lab2.Controllers
         public ActionResult Cart(CartViewModel cartViewModel)
         {
             // Get the book session data
-            var bookViewModel = (BookViewModel)Session["BookData"];
+            var bookViewModel = (BookViewModel) Session["BookData"];
 
             // Check for valid number of copies
             if (cartViewModel.NumCopies < 1)
-                ModelState.AddModelError("NumCopies", "Quantity must be greater than zero");  
-  
+                ModelState.AddModelError("NumCopies", "Quantity must be greater than zero");
+
 
             if (!ModelState.IsValid)
                 return View("Index", bookViewModel);

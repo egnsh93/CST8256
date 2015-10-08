@@ -1,19 +1,18 @@
-﻿@using Lab2.ViewModels
-@model CartViewModel
+﻿@model Lab2.ViewModels.CartViewModel
 @{
     ViewBag.Title = "Cart";
 }
 
 <h2>Shopping Cart</h2>
-<hr />
+<hr/>
 
 <table class="table table-striped">
     <thead>
-        <tr>
-            <th>Title</th>
-            <th>Quantity</th>
-            <th>Subtotal</th>
-        </tr>
+    <tr>
+        <th>Title</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+    </tr>
     </thead>
     <tbody>
     @foreach (var order in Model.BookOrders)
@@ -34,9 +33,13 @@
     else
     {
         <tr>
-            <td><strong>Total:</strong></td>
+            <td>
+                <strong>Total:</strong>
+            </td>
             <td></td>
-            <td colspan="3"><strong>$@Model.TotalAmountPayable</strong></td>
+            <td colspan="3">
+                <strong>$@Model.TotalAmountPayable</strong>
+            </td>
         </tr>
     }
 
@@ -45,4 +48,3 @@
 
 <a class="btn btn-primary" href="@Url.Action("Index", "Store")">Continue Shopping</a>
 <a class="btn btn-danger" href="@Url.Action("EmptyCart", "Store")">Empty Cart</a>
-

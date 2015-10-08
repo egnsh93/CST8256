@@ -1,34 +1,30 @@
 ﻿body {
-    padding-top: 50px;
     padding-bottom: 20px;
+    padding-top: 50px;
 }
 
 /* Set padding to keep content from hitting the edges */
+
 .body-content {
+    margin: 40px 0;
     padding-left: 15px;
     padding-right: 15px;
-    margin: 40px 0;
 }
 
 /* Set width on the form input elements since they're 100% wide by default */
+
 input,
 select,
-textarea {
-    max-width: 100%;
-}
+textarea { max-width: 100%; }
 
-section {
-    margin-top: 40px;
-}
+section { margin-top: 40px; }
 
 .alert-info {
-    padding: 15px;
     font-weight: bold;
+    padding: 15px;
 }
 
-.order-form {
-    margin-top: 20px;
-}
+.order-form { margin-top: 20px; }
 
 .table .close {
     color: #c9302c;

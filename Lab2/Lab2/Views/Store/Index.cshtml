@@ -4,7 +4,7 @@
 }
 
 <h1>Welcome</h1>
-<hr />
+<hr/>
 <p class="alert-info">Buy today to get free delivery to your classroom!</p>
 
 <div class="row">
@@ -17,28 +17,28 @@
                 @Html.DropDownListFor(m => m.BookId,
                     new SelectList(Model.BookData, "Id", "Title"),
                     "Please select a book",
-                    new { @onchange = "this.form.submit();", @class = "form-control" })
+                    new {@onchange = "this.form.submit();", @class = "form-control"})
             }
         </section>
 
         <section>
             <h4>Description</h4>
-            <hr />
+            <hr/>
             <p>@Model.Description</p>
         </section>
     </div>
 
-    <div class="col-lg-5 pull-right"> 
+    <div class="col-lg-5 pull-right">
         <section>
             <h4>Item Details</h4>
-            <hr />
+            <hr/>
             <button type="button" class="btn btn-info btn-sm" disabled>@Html.DisplayFor(m => m.Price)</button>
 
-            @using (Html.BeginForm("Cart", "Store", FormMethod.Post, new { @class = "order-form form-inline" }))
+            @using (Html.BeginForm("Cart", "Store", FormMethod.Post, new {@class = "order-form form-inline"}))
             {
                 <div class="form-group">
-                    @Html.LabelFor(model => model.NumCopies, new { @class = "sr-only" })
-                    @Html.TextBoxFor(model => model.NumCopies, new { @class = "form-control input-sm", @placeholder = "Enter quantity", @value = "" })
+                    @Html.LabelFor(model => model.NumCopies, new {@class = "sr-only"})
+                    @Html.TextBoxFor(model => model.NumCopies, new {@class = "form-control input-sm", @placeholder = "Enter quantity", @value = ""})
                     @Html.ValidationMessageFor(model => model.NumCopies)
                 </div>
 

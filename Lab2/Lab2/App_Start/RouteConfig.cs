@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 using System.Web.Routing;
 
 namespace Lab2
@@ -13,17 +9,13 @@ namespace Lab2
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-                name: null,
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Store", action = "Index", id = UrlParameter.Optional }
-            );
+            routes.MapRoute(null, "{controller}/{action}/{id}",
+                new {controller = "Store", action = "Index", id = UrlParameter.Optional}
+                );
 
-            routes.MapRoute(
-                name: null,
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Store", action = "Cart", id = UrlParameter.Optional }
-            );
+            routes.MapRoute(null, "{controller}/{action}/{id}",
+                new {controller = "Store", action = "Cart", id = UrlParameter.Optional}
+                );
         }
     }
 }

@@ -10,13 +10,11 @@ namespace Lab2.ViewModels
     {
         public List<Order> BookOrders { get; set; }
         public int NumCopies { get; set; }
+
         [DisplayFormat(DataFormatString = "{0:C2}")]
         public double TotalAmountPayable
         {
-            get
-            {
-                return OrderRepository.RetrieveAllOrders().Sum(order => order.SubTotal);
-            }
+            get { return OrderRepository.RetrieveAllOrders().Sum(order => order.SubTotal); }
         }
     }
 }
