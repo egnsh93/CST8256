@@ -1,8 +1,6 @@
 ﻿using Lab2.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace Lab2.ViewModels
 {
@@ -11,7 +9,9 @@ namespace Lab2.ViewModels
         public int BookId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        [DisplayFormat(DataFormatString = "{0:C2}")]
         public double Price { get; set; }
-        public IEnumerable<Book> BookData { get; set; }
+        public int NumCopies { get; set; }
+        public List<Book> BookData { get; set; }
     }
 }
