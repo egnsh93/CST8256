@@ -1,0 +1,73 @@
+﻿@using Lab3.ViewModels
+@model StudentCourseViewModel
+@{
+    ViewBag.Title = Model.CourseViewModel.Number + " " + Model.CourseViewModel.Name;
+}
+
+<div class="row">
+    <div class="page-header">
+        <h1>Add Student</h1>
+    </div>
+
+    @using (Html.BeginForm("AddStudent", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        <div class="form-group">
+            @Html.LabelFor(m => m.StudentViewModel.Id, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.StudentViewModel.Id, new { @class = "form-control", id = "studentID", placeholder = "Enter student ID number" })
+                @Html.ValidationMessageFor(m => m.StudentViewModel.Id)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.StudentViewModel.Name, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.StudentViewModel.Name, new { @class = "form-control", id = "studentName", placeholder = "Enter student name" })
+                @Html.ValidationMessageFor(m => m.StudentViewModel.Name)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.StudentViewModel.Grade, new { @class = "col-sm-2 control-label" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.StudentViewModel.Grade, new { @class = "form-control", id = "studentGrade", placeholder = "Enter student grade" })
+                @Html.ValidationMessageFor(m => m.StudentViewModel.Grade)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-success">Enroll student in course</button>
+            </div>
+        </div>
+    }
+
+    <hr/>
+    
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>#</th>
+            <th>Student Name</th>
+            <th>Grade</th>
+        </tr>
+        </thead>
+        <tbody>
+           @if (!Model.CourseViewModel.Students.Any())
+            {
+                <tr>
+                    <td colspan="3">No student records found</td>
+                </tr>
+            }
+
+            @foreach (var student in Model.CourseViewModel.Students)
+            {
+                <tr>
+                    <td>@student.Id</td>
+                    <td>@student.Name</td>
+                    <td>@student.Grade</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
