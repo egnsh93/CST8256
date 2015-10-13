@@ -1,22 +1,22 @@
 ﻿@model Lab3.ViewModels.StudentCourseViewModel
 
-@using (Html.BeginForm("SortStudents", "Home", FormMethod.Get, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("SortStudents", "Home", FormMethod.Get, new {@class = "form-horizontal"}))
 {
     <div class="radio radio-inline control-label">
         <label>
-            @Html.RadioButtonFor(m => m.SortKey, "id", new { name = "sortKey", id = "idSort", onchange = "this.form.submit()" })ID
+            @Html.RadioButtonFor(m => m.SortKey, "id", new {name = "sortKey", id = "idSort", onchange = "this.form.submit()"})ID
         </label>
     </div>
 
     <div class="radio radio-inline control-label">
         <label>
-            @Html.RadioButtonFor(m => m.SortKey, "name", new { name = "sortKey", id = "nameSort", onchange = "this.form.submit()" })Name
+            @Html.RadioButtonFor(m => m.SortKey, "name", new {name = "sortKey", id = "nameSort", onchange = "this.form.submit()"})Name
         </label>
     </div>
 
     <div class="radio radio-inline control-label">
         <label>
-            @Html.RadioButtonFor(m => m.SortKey, "grade", new { name = "sortKey", id = "gradeSort", onchange = "this.form.submit()" })Grade
+            @Html.RadioButtonFor(m => m.SortKey, "grade", new {name = "sortKey", id = "gradeSort", onchange = "this.form.submit()"})Grade
         </label>
     </div>
 }

@@ -6,7 +6,6 @@ namespace Lab3
     {
         public void Configuration(IAppBuilder app)
         {
-
         }
     }
 }

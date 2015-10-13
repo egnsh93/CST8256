@@ -35,7 +35,7 @@ namespace Lab3.Controllers
             HttpContext.Application.Lock();
             HttpContext.Application["course"] = new Course(courseViewModel.Number, courseViewModel.Name);
             HttpContext.Application.UnLock();
-            
+
             return RedirectToAction("AddStudent");
         }
 
@@ -62,7 +62,7 @@ namespace Lab3.Controllers
         public ActionResult AddStudent(StudentViewModel studentViewModel)
         {
             /* Get the course data from the application state */
-            var course = (Course)HttpContext.Application["course"];
+            var course = (Course) HttpContext.Application["course"];
 
             /* Populate Course and Student model with application data */
             var studentCourseViewModel = new StudentCourseViewModel
@@ -105,7 +105,7 @@ namespace Lab3.Controllers
         public ActionResult SortStudents(StudentCourseViewModel studentCourseViewModel)
         {
             /* Get the course and student information from the application state */
-            var course = (Course)HttpContext.Application["course"];
+            var course = (Course) HttpContext.Application["course"];
             var sortKey = studentCourseViewModel.SortKey;
 
             List<Student> sortedStudents;

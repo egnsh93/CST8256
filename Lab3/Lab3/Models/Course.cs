@@ -12,6 +12,7 @@ namespace Lab3.Models
         public List<Student> Students { get; set; }
 
         /* Initialize Course number, name and student list */
+
         public Course(string number, string name)
         {
             Number = number;
@@ -20,6 +21,7 @@ namespace Lab3.Models
         }
 
         /* Add a new student to the list */
+
         public void AddStudent(Student student)
         {
             Students.Add(student);
