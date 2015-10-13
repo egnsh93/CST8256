@@ -9,5 +9,6 @@ namespace Lab3.ViewModels
     {
         public StudentViewModel StudentViewModel { get; set; }
         public CourseViewModel CourseViewModel { get; set; }
+        public string SortKey { get; set; }
     }
 }

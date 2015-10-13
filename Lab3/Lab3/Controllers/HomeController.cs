@@ -39,13 +39,13 @@ namespace Lab3.Controllers
             return RedirectToAction("AddStudent");
         }
 
-        public ActionResult AddStudent()
+        public ActionResult AddStudent(StudentCourseViewModel studentCourseViewModel)
         {
             /* Get the course and student information from the application state */
             var course = (Course) HttpContext.Application["course"];
 
             /* Populate Course model with application data */
-            var studentCourseViewModel = new StudentCourseViewModel
+            studentCourseViewModel = new StudentCourseViewModel
             {
                 CourseViewModel = new CourseViewModel
                 {
@@ -99,6 +99,46 @@ namespace Lab3.Controllers
             course.AddStudent(student);
 
             return RedirectToAction("AddStudent", studentCourseViewModel);
+        }
+
+        [HttpGet]
+        public ActionResult SortStudents(StudentCourseViewModel studentCourseViewModel)
+        {
+            /* Get the course and student information from the application state */
+            var course = (Course)HttpContext.Application["course"];
+            var sortKey = studentCourseViewModel.SortKey;
+
+            List<Student> sortedStudents;
+
+            /* Set the set order based on the selected radio button */
+            switch (sortKey)
+            {
+                case "id":
+                    sortedStudents = course.Students.OrderBy(s => s.Id).ToList();
+                    break;
+                case "name":
+                    sortedStudents = course.Students.OrderBy(s => s.Name).ToList();
+                    break;
+                case "grade":
+                    sortedStudents = course.Students.OrderByDescending(s => s.Grade).ToList();
+                    break;
+                default:
+                    sortedStudents = course.Students.OrderBy(s => s.Id).ToList();
+                    break;
+            }
+
+            /* Populate Course model with application data */
+            studentCourseViewModel = new StudentCourseViewModel
+            {
+                CourseViewModel = new CourseViewModel
+                {
+                    Number = course.Number,
+                    Name = course.Name,
+                    Students = sortedStudents
+                },
+            };
+
+            return View("AddStudent", studentCourseViewModel);
         }
     }
 }
