@@ -6,7 +6,7 @@ namespace Lab4.Controllers
     {
         public ActionResult Index()
         {
-            return View();
+            return RedirectToAction("Add", "User");
         }
     }
 }
