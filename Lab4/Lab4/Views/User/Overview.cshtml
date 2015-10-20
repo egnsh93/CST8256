@@ -1,0 +1,18 @@
+﻿@model Lab4.ViewModels.UserColourViewModel
+@{
+    ViewBag.Title = "User Overview";
+}
+
+<div class="page-header">
+    <h2>Your Profile</h2>
+</div>
+
+<ul>
+    <li>Name: @Model.Name</li>
+    <li>Favourite Colour: @Model.Colour</li>
+</ul>
+
+<hr/>
+
+<a class="btn btn-danger" href="@Url.Action("Delete", "User")">Delete User</a>
+<a class="btn btn-primary" href="@Url.Action("Index", "Student")">Continue to Registration</a>
