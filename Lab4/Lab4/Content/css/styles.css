@@ -1,0 +1,128 @@
+﻿body {
+    background-color: #f9f9f9;
+    color: #696969;
+    font: "Trebuchet MS", Verdana, sans-serif;
+}
+
+h1 {
+    border-bottom: 3px solid #cc9900;
+    color: #996600;
+    font: Georgia, serif;
+}
+
+p { font-size: 20px; }
+
+fieldset {
+    border: groove;
+    height: 220px;
+}
+
+legend {
+    border: 1px solid green;
+    color: green;
+    font-size: 110%;
+    padding: 0.2em 0.5em;
+    text-align: center;
+}
+
+.leftSidepPan {
+    float: left;
+    margin-left: 5px;
+    margin-right: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    width: 360px;
+}
+
+.rightSidePan {
+    float: left;
+    margin-left: 10px;
+    width: 120px;
+}
+
+#sidebar section { float: right; }
+.page-header { margin-top: 0; }
+
+.center {
+    margin: auto;
+    width: 80%;
+}
+
+.emphsis {
+    color: red;
+    font-style: italic;
+    font-weight: 500;
+}
+
+.error { color: red; }
+
+.distinct {
+    color: blue;
+    font-weight: bold;
+}
+
+.submitbutton {
+    background-color: lightgoldenrodyellow;
+    border: 2px solid #f00;
+    border-style: ridge;
+    width: 10em;
+}
+
+.submitbutton:hover {
+    background: #eef;
+    border: 2px solid #f00;
+}
+
+.input {
+    background: #ffc;
+    border: 2px solid #006;
+    border-style: groove;
+    width: 3em;
+}
+
+.input:hover {
+    background: #ff6;
+    border: 2px solid #f00;
+}
+
+.dropdown {
+    background: #ffc;
+    border: groove;
+    font-size: 16px;
+    height: 40px;
+    width: 350px;
+}
+
+.dropdown:hover { background: #ff6; }
+
+.table {
+    border-collapse: collapse;
+    font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+    font-size: 12px;
+    margin: 10px;
+    text-align: left;
+    width: 480px;
+}
+
+.table th {
+    background: #b9c9fe;
+    border-bottom: 1px solid #fff;
+    border-top: 4px solid #aabcfe;
+    color: #039;
+    font-size: 13px;
+    font-weight: normal;
+    padding: 8px;
+}
+
+.table td {
+    background: #e8edff;
+    border-bottom: 1px solid #fff;
+    border-top: 1px solid transparent;
+    color: #669;
+    padding: 8px;
+}
+
+.table tr:hover td {
+    background: #d0dafd;
+    color: #339;
+}
