@@ -8,6 +8,7 @@ namespace Lab4.Models
 
         public FullTimeStudent(int number, string name) : base(number, name)
         {
+            Level = 1;
         }
 
         public FullTimeStudent(int number, string name, int level) : base(number, name)
@@ -15,6 +16,8 @@ namespace Lab4.Models
             Level = level;
         }
 
-        public override double TuitionPayable() => RegisteredCourses.Sum(h => h.WeeklyHours)*Course.CourseHourlyFeeRate;
+        public override string ToString() => "Full Time";
+
+        public override double TuitionPayable() => Level == 1 ? 1000.0 : 800.0;
     }
 }

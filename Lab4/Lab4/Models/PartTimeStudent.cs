@@ -9,6 +9,7 @@ namespace Lab4.Models
 
         public PartTimeStudent(int number, string name) : base(number, name)
         {
+            StartDate = DateTime.Now;
         }
 
         public PartTimeStudent(int number, string name, DateTime startDate) : base(number, name)
@@ -16,6 +17,8 @@ namespace Lab4.Models
             StartDate = startDate;
         }
 
-        public override double TuitionPayable() => RegisteredCourses.Sum(h => h.WeeklyHours)*Course.CourseHourlyFeeRate;
+        public override string ToString() => "Part Time";
+
+        public override double TuitionPayable() => (RegisteredCourses.Sum(course => course.WeeklyHours)) * Course.CourseHourlyFeeRate;
     }
 }

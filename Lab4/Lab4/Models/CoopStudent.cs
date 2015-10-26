@@ -6,11 +6,10 @@ namespace Lab4.Models
     {
         private const int CoopFee = 300;
 
-        public CoopStudent(int number, string name) : base(number, name)
-        {
-        }
+        public CoopStudent(int number, string name) : base(number, name) {}
 
-        public override double TuitionPayable()
-            => CoopFee + (RegisteredCourses.Sum(h => h.WeeklyHours))*Course.CourseHourlyFeeRate;
+        public override string ToString() => "Coop";
+
+        public override double TuitionPayable() => CoopFee + (RegisteredCourses.Sum(course => course.WeeklyHours)) * Course.CourseHourlyFeeRate;
     }
 }
