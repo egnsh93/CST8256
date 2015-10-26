@@ -1,6 +1,9 @@
-﻿@model Lab4.ViewModels.UserColourViewModel
+﻿@using System.Runtime.InteropServices
+@model Lab4.ViewModels.UserColourViewModel
 @{
     ViewBag.Title = "User Overview";
+    ViewBag.HeaderImageSrc = @Url.Content("~/Content/images/SAT.png");
+    ViewBag.HeaderImageAlt = "School of Advanced Technology";
 }
 
 <div class="page-header">
@@ -15,4 +18,4 @@
 <hr/>
 
 <a class="btn btn-danger" href="@Url.Action("Delete", "User")">Delete User</a>
-<a class="btn btn-primary" href="@Url.Action("Index", "Student")">Continue to Registration</a>
+<a class="btn btn-success" href="@Url.Action("Add", "Course")">Continue to Registration</a>

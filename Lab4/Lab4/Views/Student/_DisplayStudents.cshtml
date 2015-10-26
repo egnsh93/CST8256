@@ -1,0 +1,30 @@
+﻿@model Lab4.ViewModels.StudentCourseViewModel
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Tuition</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.CourseViewModel.Students.Any())
+        {
+            <tr>
+                <td colspan="4">No student records found</td>
+            </tr>
+        }
+
+        @foreach (var student in Model.CourseViewModel.Students)
+        {
+            <tr>
+                <td>@student.Number</td>
+                <td>@student.Name</td>
+                <td>@student.ToString()</td>
+                <td>@($"{student.TuitionPayable():C}")</td>
+            </tr>
+        }
+    </tbody>
+</table>
