@@ -15,8 +15,10 @@ namespace Lab4.Controllers
             // Validate the model
             if (ModelState.IsValid == false) return View("UserName");
 
-            // Store the username in the session
-            TempData.Add("name", input.Name);
+            // Store the username in the application state
+            HttpContext.Application.Lock();
+            HttpContext.Application["user"] = input.Name;
+            HttpContext.Application.UnLock();
             
             return RedirectToAction("AddColour");
         }
@@ -38,13 +40,17 @@ namespace Lab4.Controllers
         public ActionResult Overview(UserColourViewModel input) => View("Overview", new UserColourViewModel
         {
             // Populate the profile view with name and colour
-            Name = (string) TempData["name"],
+            Name = (string) HttpContext.Application["user"],
             Colour = input.Colour
         });
 
         public ActionResult Delete()
         {
-            TempData.Clear();
+            // Delete the user from the application state and redirect
+            HttpContext.Application.Lock();
+            HttpContext.Application["user"] = null;
+            HttpContext.Application.UnLock();
+
             return RedirectToAction("Add");
         }
     }
