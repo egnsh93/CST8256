@@ -1,0 +1,43 @@
+﻿@model Lab5.ViewModels.CourseViewModel
+@{
+    ViewBag.Title = "Add New Course";
+    ViewBag.HeaderImageSrc = @Url.Content("~/Content/images/SAT.png");
+    ViewBag.HeaderImageAlt = "School of Advanced Technology";
+}
+
+<div class="page-header">
+    <h1>Add New Course</h1>
+</div>
+
+@using (Html.BeginForm("Add", "Course", FormMethod.Post, new { @class = "form-horizontal" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Number, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Number, new { @class = "form-control", id = "courseNumber", placeholder = "Course Number" })
+            @Html.ValidationMessageFor(m => m.Number)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", id = "courseName", placeholder = "Course Name" })
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.WeeklyHours, new { @class = "col-sm-2 control-label" })
+        <div class="col-sm-10">
+            @Html.TextBoxFor(m => m.WeeklyHours, new { @class = "form-control", id = "courseHours", type = "number", value = "1", min = "1" })
+            @Html.ValidationMessageFor(m => m.WeeklyHours)
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-success">Submit Course Information</button>
+        </div>
+    </div>
+}
