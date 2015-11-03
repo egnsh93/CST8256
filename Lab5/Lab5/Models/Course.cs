@@ -18,5 +18,10 @@ namespace Lab5.Models
             WeeklyHours = weeklyHours;
             Students = new List<Student>();
         }
+
+        public override string ToString()
+        {
+            return Number + " " + Name;
+        }
     }
 }
