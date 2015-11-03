@@ -203,7 +203,6 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Course\Add.cshtml" />
     <Content Include="Views\Course\_DisplayCourses.cshtml" />
-    <Content Include="Views\CourseOffering\_DisplayOfferings.cshtml" />
     <Content Include="Views\CourseOffering\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
