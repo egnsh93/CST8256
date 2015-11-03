@@ -25,6 +25,9 @@ namespace Lab5.Controllers
             // Get all records from the Course table
             var courses = _repository.GetCourses();
 
+            // Order courses by name
+            courses = courses.OrderBy(c => c.Name).ToList();
+
             // Send the list of courses to the view model
             var courseViewModel = new CourseViewModel
             {
