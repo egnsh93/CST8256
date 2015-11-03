@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Web;
 using Lab5.Models;
@@ -8,9 +9,13 @@ namespace Lab5.ViewModels
 {
     public class CourseOfferingViewModel
     {
-        public Course CourseOffered { get; set; }
-        public string Semester { get; set; }
-        public List<Student> Students { get; set; }
-        public int Year { get; set; }
+        [DisplayName("Course")]
+        public string SelectedCourseId { get; set; }
+
+        [DisplayName("Semester")]
+        public string SelectedSemester { get; set; }
+
+        public List<Course> Courses { get; set; }
+
     }
 }
