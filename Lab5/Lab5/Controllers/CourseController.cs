@@ -1,4 +1,5 @@
 ﻿using System.Data.SqlClient;
+using System.Linq;
 using System.Web.Configuration;
 using System.Web.Mvc;
 using Lab5.Models;
@@ -25,19 +26,34 @@ namespace Lab5.Controllers
             var courses = _repository.GetCourses();
 
             // Send the list of courses to the view model
-            var courseViewModel = new CourseViewModel()
+            var courseViewModel = new CourseViewModel
             {
                 RegisteredCourses = courses,
             };
-           
+
             return View(courseViewModel);
         }
 
         [HttpPost]
         public ActionResult Add(CourseViewModel input)
         {
+            // Get all records from the Course table
+            var courses = _repository.GetCourses();
+
+            // Send the list of courses to the view model
+            var courseViewModel = new CourseViewModel
+            {
+                RegisteredCourses = courses,
+            };
+
+            // Check if the course already exists
+            foreach (var c in courses.Where(c => c.Number == input.Number))
+            {
+                ModelState.AddModelError("Number", "ID already exists");
+            }
+
             // Validate model state
-            if (!ModelState.IsValid) return View(input);
+            if (!ModelState.IsValid) return View(courseViewModel);
             
             // Insert course into database via repository
             var course = new Course(input.Number, input.Name, input.WeeklyHours);
