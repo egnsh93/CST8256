@@ -145,6 +145,7 @@
     <Compile Include="Controllers\CourseOfferingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Enums\Enums.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -202,10 +203,11 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Course\Add.cshtml" />
     <Content Include="Views\Course\_DisplayCourses.cshtml" />
+    <Content Include="Views\CourseOffering\_DisplayOfferings.cshtml" />
+    <Content Include="Views\CourseOffering\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\CourseOffering\" />
     <Folder Include="Views\Student\" />
     <Folder Include="Views\User\" />
   </ItemGroup>
