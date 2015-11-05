@@ -41,7 +41,46 @@ namespace Lab5.Repositories
 
         public Course GetCourse(string id)
         {
-            return null;
+            Course course = null;
+
+            using (var conn = new SqlConnection(_connectionString))
+            using (var cmd = conn.CreateCommand())
+            {
+                // Open a connection
+                conn.Open();
+
+                // Build SQL query
+                cmd.CommandText = "SELECT * FROM Course WHERE CourseID = @courseID";
+
+                // Set the course ID
+                cmd.Parameters.AddWithValue("@courseID", id);
+
+                // Create DataReader for storing the returning table into memory
+                var dataReader = cmd.ExecuteReader();
+
+                // Check if the Course table has records
+                if (dataReader.HasRows)
+                {
+                    // Iterate through each record
+                    while (dataReader.Read())
+                    {
+                        // Extract the course fields
+                        var number = dataReader["CourseID"].ToString();
+                        var name = dataReader["CourseTitle"].ToString();
+                        var weeklyHours = Convert.ToInt16(dataReader["HoursPerWeek"]);
+
+                        // Return the matched course
+                        course = new Course(number, name, weeklyHours);
+                    }
+                }
+
+                // Close the DataReader
+                dataReader.Close();
+
+                // Execute the SELECT operation
+                cmd.ExecuteNonQuery();
+            }
+            return course;
         }
 
         public List<Course> GetCourses()
