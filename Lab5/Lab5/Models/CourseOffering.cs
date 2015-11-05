@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using static System.String;
+using Lab5.Enums;
 
 namespace Lab5.Models
 {
@@ -35,6 +35,9 @@ namespace Lab5.Models
         public List<Student> GetStudents()
         {
             return Students;
-        } 
+        }
+
+        public int CompareTo(CourseOffering other) => other == null ? 1 : Year.CompareTo(other.Year);
+
     }
 }
