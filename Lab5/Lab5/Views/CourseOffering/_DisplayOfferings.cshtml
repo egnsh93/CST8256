@@ -1,0 +1,34 @@
+﻿@model Lab5.ViewModels.CourseOfferingViewModel
+
+<div class="page-header" style="margin-top: 50px;">
+    <h3>Registered Course Offerings</h3>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Course Code</th>
+            <th>Course Title</th>
+            <th>Year</th>
+            <th>Semester</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.CourseOfferings.Any())
+        {
+            <tr>
+                <td colspan="4">No course offerings records found</td>
+            </tr>
+        }
+
+        @foreach (var offering in Model.CourseOfferings)
+        {
+            <tr>
+                <td>@offering.CourseOffered.Number</td>
+                <td>@offering.CourseOffered.Name</td>
+                <td>@offering.Year</td>
+                <td>@offering.Semester</td>
+            </tr>
+        }
+    </tbody>
+</table>
