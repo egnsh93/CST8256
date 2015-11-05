@@ -4,6 +4,7 @@ using System.Web.Configuration;
 using System.Web.Mvc;
 using Lab5.Models;
 using Lab5.Repositories;
+using Lab5.Services;
 using Lab5.ViewModels;
 using Ninject;
 using Ninject.Extensions.ContextPreservation;
@@ -12,18 +13,18 @@ namespace Lab5.Controllers
 {
     public class CourseController : Controller
     {
-        private readonly ICourseRepository _repository;
+        private readonly ICourseService _courseService;
 
-        public CourseController(ICourseRepository repository)
+        public CourseController(ICourseService courseService)
         {
-            _repository = repository;
+            _courseService = courseService;
         }
 
         // GET: Course
         public ActionResult Add()
         {
             // Get all records from the Course table
-            var courses = _repository.GetCourses();
+            var courses = _courseService.GetAllCourses();
 
             // Order courses by name
             courses = courses.OrderBy(c => c.Name).ToList();
@@ -40,8 +41,14 @@ namespace Lab5.Controllers
         [HttpPost]
         public ActionResult Add(CourseViewModel input)
         {
+            // Populate view model
+
+            // Validate
+
+            // Insert
+
             // Get all records from the Course table
-            var courses = _repository.GetCourses();
+            var courses = _courseService.GetAllCourses();
 
             // Send the list of courses to the view model
             var courseViewModel = new CourseViewModel
@@ -60,7 +67,7 @@ namespace Lab5.Controllers
             
             // Insert course into database via repository
             var course = new Course(input.Number, input.Name, input.WeeklyHours);
-            _repository.InsertCourse(course);
+            _courseService.AddCourse(course);
 
             return RedirectToAction("Add");
         }

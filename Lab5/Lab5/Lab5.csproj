@@ -145,7 +145,7 @@
     <Compile Include="Controllers\CourseOfferingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
-    <Compile Include="Enums\Enums.cs" />
+    <Compile Include="Enums\Semester.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -158,11 +158,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\CourseOfferingRepository.cs" />
     <Compile Include="Repositories\CourseRepository.cs" />
+    <Compile Include="Repositories\ICourseOfferingRepository.cs" />
     <Compile Include="Repositories\ICourseRepository.cs" />
     <Compile Include="Repositories\RegistrationRepository.cs" />
     <Compile Include="Repositories\StudentRepository.cs" />
-    <Compile Include="Utilities\StudentComparer.cs" />
-    <Compile Include="Utilities\StudentType.cs" />
+    <Compile Include="Services\CourseService.cs" />
+    <Compile Include="Services\ICourseService.cs" />
+    <Compile Include="Utilities\CourseOfferingComparer.cs" />
     <Compile Include="ViewModels\CourseOfferingViewModel.cs" />
     <Compile Include="ViewModels\CourseViewModel.cs" />
     <Compile Include="ViewModels\StudentViewModel.cs" />
@@ -204,11 +206,11 @@
     <Content Include="Views\Course\Add.cshtml" />
     <Content Include="Views\Course\_DisplayCourses.cshtml" />
     <Content Include="Views\CourseOffering\Add.cshtml" />
+    <Content Include="Views\CourseOffering\_DisplayOfferings.cshtml" />
+    <Content Include="Views\Student\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Student\" />
-    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
