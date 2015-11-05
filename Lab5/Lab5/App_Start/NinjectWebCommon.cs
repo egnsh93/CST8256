@@ -1,4 +1,5 @@
 using Lab5.Repositories;
+using Lab5.Services;
 
 [assembly: WebActivatorEx.PreApplicationStartMethod(typeof(Lab5.App_Start.NinjectWebCommon), "Start")]
 [assembly: WebActivatorEx.ApplicationShutdownMethodAttribute(typeof(Lab5.App_Start.NinjectWebCommon), "Stop")]
@@ -63,7 +64,9 @@ namespace Lab5.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            kernel.Bind<ICourseService>().To<CourseService>();
             kernel.Bind<ICourseRepository>().To<CourseRepository>();
+            kernel.Bind<ICourseOfferingRepository>().To<CourseOfferingRepository>();
         }
     }
 }
