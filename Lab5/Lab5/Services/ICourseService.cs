@@ -10,10 +10,11 @@ namespace Lab5.Services
     {
         void AddCourse(Course course);
         void AddCourseOffering(CourseOffering offering);
-        void AddStudent(Student student);
-        void AddStudentToOffering(Student student);
+        void AddStudent(Student student, CourseOffering offering);
 
         Course GetCourseById(string id);
+        CourseOffering GetCourseOffering(string id, int year, string semester);
+        CourseOffering GetCourseOfferingById(string id);
 
         List<Course> GetAllCourses();
         List<CourseOffering> GetAllCourseOfferings();

@@ -146,6 +146,9 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Enums\Semester.cs" />
+    <Compile Include="Exceptions\StudentExistsException.cs" />
+    <Compile Include="Exceptions\CourseOfferingExistsException.cs" />
+    <Compile Include="Factory\StudentFactory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -160,7 +163,7 @@
     <Compile Include="Repositories\CourseRepository.cs" />
     <Compile Include="Repositories\ICourseOfferingRepository.cs" />
     <Compile Include="Repositories\ICourseRepository.cs" />
-    <Compile Include="Repositories\RegistrationRepository.cs" />
+    <Compile Include="Repositories\IStudentRepository.cs" />
     <Compile Include="Repositories\StudentRepository.cs" />
     <Compile Include="Services\CourseService.cs" />
     <Compile Include="Services\ICourseService.cs" />
@@ -208,6 +211,7 @@
     <Content Include="Views\CourseOffering\Add.cshtml" />
     <Content Include="Views\CourseOffering\_DisplayOfferings.cshtml" />
     <Content Include="Views\Student\Add.cshtml" />
+    <Content Include="Views\Student\_DisplayStudents.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

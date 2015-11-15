@@ -19,6 +19,6 @@ namespace Lab5.ViewModels
         [DisplayName("Weekly Hours"), Required(ErrorMessage = "Required")]
         public int WeeklyHours { get; set; }
 
-        public IEnumerable<Course> RegisteredCourses { get; set; }
+        public List<Course> RegisteredCourses { get; set; }
     }
 }

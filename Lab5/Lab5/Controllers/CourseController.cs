@@ -6,8 +6,10 @@ using Lab5.Models;
 using Lab5.Repositories;
 using Lab5.Services;
 using Lab5.ViewModels;
+using Microsoft.Ajax.Utilities;
 using Ninject;
 using Ninject.Extensions.ContextPreservation;
+using WebGrease.Css.Extensions;
 
 namespace Lab5.Controllers
 {
@@ -20,54 +22,34 @@ namespace Lab5.Controllers
             _courseService = courseService;
         }
 
-        // GET: Course
-        public ActionResult Add()
+        // Populate Course View Model
+        public CourseViewModel PopulateViewModel(CourseViewModel viewModel)
         {
-            // Get all records from the Course table
-            var courses = _courseService.GetAllCourses();
-
-            // Order courses by name
-            courses = courses.OrderBy(c => c.Name).ToList();
-
-            // Send the list of courses to the view model
-            var courseViewModel = new CourseViewModel
-            {
-                RegisteredCourses = courses,
-            };
-
-            return View(courseViewModel);
+            viewModel.RegisteredCourses = _courseService.GetAllCourses().OrderBy(c => c.Name).ToList();
+            return viewModel;
         }
+
+        // GET: Course
+        public ActionResult Add() => View(PopulateViewModel(new CourseViewModel()));
 
         [HttpPost]
         public ActionResult Add(CourseViewModel input)
         {
-            // Populate view model
+            // Populate VM
+            var viewModel = PopulateViewModel(input);
+            
+            // Check for already existing course
+            var courseExists = viewModel.RegisteredCourses.Find(c => c.Number == input.Number);
 
-            // Validate
-
-            // Insert
-
-            // Get all records from the Course table
-            var courses = _courseService.GetAllCourses();
-
-            // Send the list of courses to the view model
-            var courseViewModel = new CourseViewModel
-            {
-                RegisteredCourses = courses,
-            };
-
-            // Check if the course already exists
-            foreach (var c in courses.Where(c => c.Number == input.Number))
-            {
+            if (courseExists != null)
                 ModelState.AddModelError("Number", "ID already exists");
-            }
 
             // Validate model state
-            if (!ModelState.IsValid) return View(courseViewModel);
+            if (!ModelState.IsValid)
+                return View(viewModel);
             
             // Insert course into database via repository
-            var course = new Course(input.Number, input.Name, input.WeeklyHours);
-            _courseService.AddCourse(course);
+            _courseService.AddCourse(new Course(input.Number, input.Name, input.WeeklyHours));
 
             return RedirectToAction("Add");
         }

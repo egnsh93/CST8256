@@ -20,24 +20,11 @@ namespace Lab5.Models
             Year = year;
         }
 
-        public void AddStudent(Student student)
-        {
-            Students.Add(student);
-            student.RegisteredCourseOfferings.Add(this);
-        }
-
-        public void AddStudents(List<Student> students)
-        {
-            Students.AddRange(students);
-            students.ForEach(student => student.RegisteredCourseOfferings.Add(this));
-        }
-
-        public List<Student> GetStudents()
-        {
-            return Students;
-        }
-
         public int CompareTo(CourseOffering other) => other == null ? 1 : Year.CompareTo(other.Year);
 
+        public override string ToString()
+        {
+            return CourseOffered.Number + " " + CourseOffered.Name + " " + Year + " " + Semester;
+        }
     }
 }

@@ -18,9 +18,9 @@ namespace Lab5.Utilities
             if (a.Year == b.Year)
             {
                 // If offerings are in same year and semester
-                return (a.Year == b.Year) && (a.Semester == b.Semester)
+                return (a.Year == b.Year) && (a.Semester.Equals(b.Semester))
                     // Sort by course title
-                    ? String.Compare(a.CourseOffered.Name, b.CourseOffered.Name, StringComparison.Ordinal)
+                    ? string.Compare(a.CourseOffered.Name, b.CourseOffered.Name, StringComparison.Ordinal)
                     // Sort by semester
                     : GetSemesterPriority(a.Semester).CompareTo(GetSemesterPriority(b.Semester));
             }

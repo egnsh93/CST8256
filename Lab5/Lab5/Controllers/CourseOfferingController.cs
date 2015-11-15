@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using Lab5.Exceptions;
 using Lab5.Models;
 using Lab5.Repositories;
 using Lab5.Services;
@@ -21,60 +22,48 @@ namespace Lab5.Controllers
             _courseService = courseService;
         }
 
-        // GET: CourseOffering
-        public ActionResult Add()
+        // Populate CourseOffering View Model
+        public CourseOfferingViewModel PopulateViewModel(CourseOfferingViewModel viewModel)
         {
-            // Get all records from the Course table
-            var courses = _courseService.GetAllCourses();
-
-            var offerings = _courseService.GetAllCourseOfferings();
-
-            offerings.Sort(new CourseOfferingComparer());
-
-            // Order courses by name
-            courses = courses.OrderBy(c => c.Name).ToList();
-
-            // Send the list of courses to the view model
-            var offeringVm = new CourseOfferingViewModel()
-            {
-                Courses = courses,
-                CourseOfferings = offerings,
-                Years = Enumerable.Range(DateTime.Now.Year, 4).Select(i => new SelectListItem
-                {
-                    Text = i.ToString(),
-                    Value = i.ToString()
-                }),
-            };
-
-            return View(offeringVm);
-        }
-
-        [HttpPost]
-        public ActionResult Add(CourseOfferingViewModel input)
-        {
-            // Rebind course list on error
-            input.Courses = _courseService.GetAllCourses().OrderBy(c => c.Name).ToList();
-            input.CourseOfferings = _courseService.GetAllCourseOfferings();
-            input.Years = Enumerable.Range(DateTime.Now.Year, 4).Select(i => new SelectListItem
+            viewModel.Courses = _courseService.GetAllCourses().OrderBy(c => c.Name).ToList();
+            viewModel.CourseOfferings = _courseService.GetAllCourseOfferings();
+            viewModel.CourseOfferings.Sort(new CourseOfferingComparer());
+            viewModel.Years = Enumerable.Range(DateTime.Now.Year, 4).Select(i => new SelectListItem
             {
                 Text = i.ToString(),
                 Value = i.ToString()
             });
 
-            // If model is valid, redirect
-            if (ModelState.IsValid)
-            {
-                // Add Course Offering
-                var offering = new CourseOffering(_courseService.GetCourseById(input.SelectedCourseId), input.Semester.ToString(), input.SelectedYear);
+            return viewModel;
+        }
 
+        // GET: CourseOffering
+        public ActionResult Add() => View(PopulateViewModel(new CourseOfferingViewModel()));
+
+        [HttpPost]
+        public ActionResult Add(CourseOfferingViewModel input)
+        {
+            // Populate VM
+            var viewModel = PopulateViewModel(input);
+
+            // Validate model state
+            if (!ModelState.IsValid)
+                return View(viewModel);
+
+            // Attempt to add the offering
+            try
+            {
+                var offering = new CourseOffering(_courseService.GetCourseById(input.SelectedCourseId), input.Semester.ToString(), input.SelectedYear);
                 _courseService.AddCourseOffering(offering);
                 input.CourseOfferings.Add(offering);
-
-                return RedirectToAction("Add", input);
+            }
+            catch (CourseOfferingExistsException)
+            {
+                // If the offering already exists, display error
+                TempData["Error"] = "Course offering already exists!";
             }
 
-            // Return to view and display errors
-            return View(input);
+            return RedirectToAction("Add", input);
         }
     }
 }

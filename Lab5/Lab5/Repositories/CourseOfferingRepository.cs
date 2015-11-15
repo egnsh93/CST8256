@@ -69,7 +69,6 @@ namespace Lab5.Repositories
 
                         var year = Convert.ToInt16(dataReader["Year"]);
                         var semester = dataReader["Semester"].ToString();
-                        var courseId = dataReader["Course_CourseID"].ToString();
 
                         // Build the course object
                         var course = new Course(number, name, weeklyHours);
@@ -89,6 +88,136 @@ namespace Lab5.Repositories
                 cmd.ExecuteNonQuery();
             }
             return offerings;
+        }
+
+        public CourseOffering GetCourseOffering(string id, int year, string semester)
+        {
+            CourseOffering offering = null;
+
+            using (var conn = new SqlConnection(_connectionString))
+            using (var cmd = conn.CreateCommand())
+            {
+                // Open a connection
+                conn.Open();
+
+                // Build SQL query
+                cmd.CommandText = "SELECT * from CourseOffering INNER JOIN Course ON CourseOffering.Course_CourseID = Course.CourseID WHERE Course_CourseID = @courseID AND Year = @year AND Semester = @semester";
+
+                // Set the course ID
+                cmd.Parameters.AddWithValue("@courseID", id);
+                cmd.Parameters.AddWithValue("@year", year);
+                cmd.Parameters.AddWithValue("@semester", semester);
+
+                // Create DataReader for storing the returning table into memory
+                var dataReader = cmd.ExecuteReader();
+
+                // Check if the CourseOffering table has records
+                if (dataReader.HasRows)
+                {
+                    // Iterate through each record
+                    while (dataReader.Read())
+                    {
+                        // Extract the course fields
+                        var number = dataReader["CourseID"].ToString();
+                        var name = dataReader["CourseTitle"].ToString();
+                        var weeklyHours = Convert.ToInt16(dataReader["HoursPerWeek"]);
+
+                        // Build the course object
+                        var course = new Course(number, name, weeklyHours);
+
+                        // Build the course offering object
+                        offering = new CourseOffering(course, semester, year);
+                    }
+                }
+
+                // Close the DataReader
+                dataReader.Close();
+
+                // Execute the SELECT operation
+                cmd.ExecuteNonQuery();
+            }
+            return offering;
+        }
+
+        public CourseOffering GetCourseOfferingById(string id)
+        {
+            CourseOffering offering = null;
+
+            using (var conn = new SqlConnection(_connectionString))
+            using (var cmd = conn.CreateCommand())
+            {
+                // Open a connection
+                conn.Open();
+
+                // Build SQL query
+                cmd.CommandText = "SELECT * from CourseOffering INNER JOIN Course ON CourseID = Course_CourseID WHERE Course_CourseID = @courseID";
+
+                // Set the course ID
+                cmd.Parameters.AddWithValue("@courseID", id);
+
+                // Create DataReader for storing the returning table into memory
+                var dataReader = cmd.ExecuteReader();
+
+                // Check if the CourseOffering table has records
+                if (dataReader.HasRows)
+                {
+                    // Iterate through each record
+                    while (dataReader.Read())
+                    {
+                        // Extract the course fields
+                        var number = dataReader["CourseID"].ToString();
+                        var name = dataReader["CourseTitle"].ToString();
+                        var weeklyHours = Convert.ToInt16(dataReader["HoursPerWeek"]);
+
+                        var semester = dataReader["Semester"].ToString();
+                        var year = Convert.ToInt16(dataReader["Year"]);
+
+                        // Build the course object
+                        var course = new Course(number, name, weeklyHours);
+
+                        // Build the course offering object
+                        offering = new CourseOffering(course, semester, year);
+                    }
+                }
+
+                // Close the DataReader
+                dataReader.Close();
+
+                // Execute the SELECT operation
+                cmd.ExecuteNonQuery();
+            }
+            return offering;
+        }
+
+        public bool CourseOfferingExists(CourseOffering offering)
+        {
+            var exists = false;
+
+            using (var conn = new SqlConnection(_connectionString))
+            using (var cmd = conn.CreateCommand())
+            {
+                // Open a connection
+                conn.Open();
+
+                // Build SQL query
+                cmd.CommandText = "SELECT * from CourseOffering WHERE Course_CourseID = @courseID AND Semester = @semester AND Year = @year";
+
+                // Set the course ID
+                cmd.Parameters.AddWithValue("@courseID", offering.CourseOffered.Number);
+                cmd.Parameters.AddWithValue("@semester", offering.Semester);
+                cmd.Parameters.AddWithValue("@year", offering.Year);
+
+                // Create DataReader for storing the returning table into memory
+                var dataReader = cmd.ExecuteReader();
+                exists = dataReader.HasRows;
+
+                // Close the DataReader
+                dataReader.Close();
+
+                // Execute the SELECT operation
+                cmd.ExecuteNonQuery();
+            }
+            return exists;
         }
     }
 }

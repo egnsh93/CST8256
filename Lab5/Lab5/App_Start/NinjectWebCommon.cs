@@ -67,6 +67,7 @@ namespace Lab5.App_Start
             kernel.Bind<ICourseService>().To<CourseService>();
             kernel.Bind<ICourseRepository>().To<CourseRepository>();
             kernel.Bind<ICourseOfferingRepository>().To<CourseOfferingRepository>();
+            kernel.Bind<IStudentRepository>().To<StudentRepository>();
         }
     }
 }

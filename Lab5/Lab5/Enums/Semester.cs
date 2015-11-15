@@ -7,9 +7,9 @@ namespace Lab5.Enums
 {
     public enum Semester
     {
+        Winter = 12,
         Spring = 3,
         Summer = 7,
         Fall = 9,
-        Winter = 12,
     }
 }
