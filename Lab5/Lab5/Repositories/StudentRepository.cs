@@ -116,7 +116,7 @@ namespace Lab5.Repositories
                 // Create DataReader for storing the returning table into memory
                 var dataReader = cmd.ExecuteReader();
 
-                // Check if the Course table has records
+                // If records exist
                 if (dataReader.HasRows)
                 {
                     // Iterate through each record

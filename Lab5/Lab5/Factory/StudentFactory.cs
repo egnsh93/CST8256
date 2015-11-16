@@ -12,11 +12,11 @@ namespace Lab5.Factory
         {
             switch (type)
             {
-                case "full-time":
+                case "Full Time":
                     return new FullTimeStudent(number, name);
-                case "part-time":
+                case "Part Time":
                     return new PartTimeStudent(number, name);
-                case "coop":
+                case "Coop":
                     return new CoopStudent(number, name);
             }
             return null;
