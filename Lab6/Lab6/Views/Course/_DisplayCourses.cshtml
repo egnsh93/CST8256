@@ -1,0 +1,32 @@
+﻿@model Lab6.ViewModels.CourseViewModel
+
+<div class="page-header" style="margin-top: 50px;">
+    <h3>Registered Courses</h3>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Course Code</th>
+            <th>Course Title</th>
+            <th>Weekly Hours</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (!Model.RegisteredCourses.Any())
+        {
+            <tr>
+                <td colspan="3">No course records found</td>
+            </tr>
+        }
+
+        @foreach (var course in Model.RegisteredCourses)
+        {
+            <tr>
+                <td>@course.Number</td>
+                <td>@course.Name</td>
+                <td>@course.WeeklyHours</td>
+            </tr>
+        }
+    </tbody>
+</table>
