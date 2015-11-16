@@ -29,7 +29,6 @@
                 }
             </select>
         </div>
-       
     </div>
 
     <div class="form-group">
@@ -76,36 +75,11 @@
     </div>
 }
 
-@section Scripts
-{
-    <script>
-        $(document).ready(function () {
-            $("#SelectedCourseId").change(function () {
-                var $opt = $(this.options[this.selectedIndex]),
-                    id = $(this).val(),
-                    year = $opt.attr("data-year"),
-                    semester = $opt.attr("data-semester");
-
-                $.ajax({
-                    type: "GET",
-                    url: "/Student/GetStudentsInOffering",
-                    data: { offeringId: id, year: year, semester: semester },
-                    dataType: "HTML",
-                    contentType: "application/json; charset=utf-8",
-                    cache: false,
-                    success: function (result) {
-                        $("#studentsInOffering").html(result);
-                    },
-                    error: function (xhr, status, error) {
-                        var err = eval("(" + xhr.responseText + ")");
-                        alert(err.Message);
-                    }
-                });
-            });
-        });
-    </script>
-}
-
 <div id="studentsInOffering">
     
 </div>
+
+@section Scripts
+{
+    <script src="~/Scripts/site.js"></script>
+}
