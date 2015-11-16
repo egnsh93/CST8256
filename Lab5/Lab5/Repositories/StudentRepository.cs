@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Configuration;
 using Lab5.Models;
+using Lab5.Factory;
 
 namespace Lab5.Repositories
 {
@@ -126,20 +127,9 @@ namespace Lab5.Repositories
                         var name = dataReader["Name"].ToString();
                         var type = dataReader["Type"].ToString();
 
-                        Student student = null;
-
-                        switch (type)
-                        {
-                            case "Full Time":
-                                student = new FullTimeStudent(number, name);
-                                break;
-                            case "Part Time":
-                                student = new PartTimeStudent(number, name);
-                                break;
-                            case "Coop":
-                                student = new CoopStudent(number, name);
-                                break;
-                        }
+                        // Get the created student from the factory
+                        var studentFactory = new StudentFactory();
+                        var student = studentFactory.CreateStudent(number, name, type);
 
                         // Append to the course list
                         students.Add(student);
