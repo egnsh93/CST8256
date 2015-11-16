@@ -36,10 +36,14 @@ namespace Lab5.Controllers
             // Get the selected course offering
             var offering = _courseService.GetCourseOffering(offeringId, year, semester);
 
+            // Get students in offering and sort based out custom comparer
+            var students = _courseService.GetAllStudentsByOffering(offering);
+            students.Sort(StudentComparer.CustomSort);
+
             // Update view model with students in course offering
             var viewModel = new StudentViewModel()
             {
-                Students = _courseService.GetAllStudentsByOffering(offering)
+                Students = students
             };
 
             return PartialView("_DisplayStudents", viewModel);

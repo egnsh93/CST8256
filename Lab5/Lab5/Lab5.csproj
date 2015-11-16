@@ -168,6 +168,7 @@
     <Compile Include="Services\CourseService.cs" />
     <Compile Include="Services\ICourseService.cs" />
     <Compile Include="Utilities\CourseOfferingComparer.cs" />
+    <Compile Include="Utilities\StudentComparer.cs" />
     <Compile Include="ViewModels\CourseOfferingViewModel.cs" />
     <Compile Include="ViewModels\CourseViewModel.cs" />
     <Compile Include="ViewModels\StudentViewModel.cs" />
