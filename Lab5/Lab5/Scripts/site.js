@@ -5,6 +5,9 @@
             year = $opt.attr("data-year"),
             semester = $opt.attr("data-semester");
 
+        $("#SelectedYear").val(year);
+        $("#SelectedSemester").val(semester)
+
         $.ajax({
             type: "GET",
             url: "/Student/GetStudentsInOffering",
@@ -13,10 +16,6 @@
             cache: false,
             success: function (result) {
                 $("#studentsInOffering").html(result);
-            },
-            error: function (xhr, status, error) {
-                var err = eval("(" + xhr.responseText + ")");
-                alert(err.Message);
             }
         });
     });

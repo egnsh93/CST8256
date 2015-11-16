@@ -21,6 +21,10 @@ namespace Lab5.ViewModels
 
         public string Type { get; set; }
 
+        public string SelectedSemester { get; set; }
+
+        public int SelectedYear { get; set; }
+
         public List<CourseOffering> CourseOfferings { get; set; }
         public List<Student> Students { get; set; }
     }

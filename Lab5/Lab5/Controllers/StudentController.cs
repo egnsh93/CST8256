@@ -33,12 +33,13 @@ namespace Lab5.Controllers
 
         public PartialViewResult GetStudentsInOffering(string offeringId, int year, string semester)
         {
+            // Get the selected course offering
             var offering = _courseService.GetCourseOffering(offeringId, year, semester);
-            var students = _courseService.GetAllStudentsByOffering(offering);
 
+            // Update view model with students in course offering
             var viewModel = new StudentViewModel()
             {
-                Students = students
+                Students = _courseService.GetAllStudentsByOffering(offering)
             };
 
             return PartialView("_DisplayStudents", viewModel);
@@ -53,18 +54,19 @@ namespace Lab5.Controllers
             // Validate model state
             if (!ModelState.IsValid) return View(input);
 
-
             // Attempt to add the student to the database/course offering
             try
             {
+                // Get the created student from the factory
                 var studentFactory = new StudentFactory();
                 var student = studentFactory.CreateStudent(input.Number, input.Name, input.Type);
 
-                // TODO: Dynamically pass in offering year and semester
+                // Get the course offering
+                var offering = _courseService.GetCourseOffering(input.SelectedCourseId, input.SelectedYear, input.SelectedSemester);
 
-                //var offering = _courseService.GetCourseOffering(input.SelectedCourseId, 2015, "Fall");
-
-                //_courseService.AddStudent(student, offering);
+                // Add the student
+                _courseService.AddStudent(student, offering);
+                
             }
             catch (Exception)
             {
