@@ -25,7 +25,7 @@ namespace Lab6.Controllers
         // Populate CourseOffering View Model
         public CourseOfferingViewModel PopulateViewModel(CourseOfferingViewModel viewModel)
         {
-            viewModel.Courses = _courseService.GetAllCourses().OrderBy(c => c.Name).ToList();
+            viewModel.Courses = _courseService.GetAllCourses().OrderBy(c => c.CourseTitle).ToList();
             viewModel.CourseOfferings = _courseService.GetAllCourseOfferings();
             viewModel.CourseOfferings.Sort(new CourseOfferingComparer());
             viewModel.Years = Enumerable.Range(DateTime.Now.Year, 4).Select(i => new SelectListItem
@@ -53,9 +53,16 @@ namespace Lab6.Controllers
             // Attempt to add the offering
             try
             {
-                var offering = new CourseOffering(_courseService.GetCourseById(input.SelectedCourseId), input.Semester.ToString(), input.SelectedYear);
+                var offering = new CourseOffering()
+                {
+                    Course_CourseID = input.SelectedCourseId,
+                    Semester = input.Semester.ToString(),
+                    Year = input.SelectedYear
+                };
+
                 _courseService.AddCourseOffering(offering);
                 input.CourseOfferings.Add(offering);
+
             }
             catch (CourseOfferingExistsException)
             {

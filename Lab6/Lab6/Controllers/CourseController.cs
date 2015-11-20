@@ -18,7 +18,7 @@ namespace Lab6.Controllers
         // Populate Course View Model
         public CourseViewModel PopulateViewModel(CourseViewModel viewModel)
         {
-            viewModel.RegisteredCourses = _courseService.GetAllCourses().OrderBy(c => c.Name).ToList();
+            viewModel.RegisteredCourses = _courseService.GetAllCourses().OrderBy(c => c.CourseTitle).ToList();
             return viewModel;
         }
 
@@ -32,7 +32,7 @@ namespace Lab6.Controllers
             var viewModel = PopulateViewModel(input);
 
             // Check for already existing course
-            var courseExists = viewModel.RegisteredCourses.Find(c => c.Number == input.Number);
+            var courseExists = viewModel.RegisteredCourses.Find(c => c.CourseID == input.Number);
 
             if (courseExists != null)
                 ModelState.AddModelError("Number", "ID already exists");
@@ -42,7 +42,12 @@ namespace Lab6.Controllers
                 return View(viewModel);
 
             // Insert course into database via repository
-            _courseService.AddCourse(new Course(input.Number, input.Name, input.WeeklyHours));
+            _courseService.AddCourse(new Course
+            {
+                CourseID = input.Number,
+                CourseTitle = input.Name,
+                HoursPerWeek = input.WeeklyHours
+            });
 
             return RedirectToAction("Add");
         }

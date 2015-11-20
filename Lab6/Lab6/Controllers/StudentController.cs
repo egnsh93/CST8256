@@ -34,10 +34,10 @@ namespace Lab6.Controllers
         public PartialViewResult GetStudentsInOffering(string offeringId, int year, string semester)
         {
             // Get the selected course offering
-            var offering = _courseService.GetCourseOffering(offeringId, year, semester);
+            var offering = _courseService.GetCourseOffering(year, semester, offeringId);
 
             // Get students in offering and sort based out custom comparer
-            var students = _courseService.GetAllStudentsByOffering(offering);
+            var students = _courseService.GetStudents(offering);
             students.Sort(StudentComparer.CustomSort);
 
             // Update view model with students in course offering
@@ -63,18 +63,17 @@ namespace Lab6.Controllers
             {
                 // Get the created student from the factory
                 var studentFactory = new StudentFactory();
-                var student = studentFactory.CreateStudent(input.Number, input.Name, input.Type);
+                var student = studentFactory.CreateStudent(input.Number.ToString(), input.Name, input.Type);
 
                 // Get the course offering
-                var offering = _courseService.GetCourseOffering(input.SelectedCourseId, input.SelectedYear, input.SelectedSemester);
+                var offering = _courseService.GetCourseOffering(input.SelectedYear, input.SelectedSemester, input.SelectedCourseId);
 
                 // Add the student
                 _courseService.AddStudent(student, offering);
-                
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                TempData["Error"] = "Something went wrong";
+                TempData["Error"] = ex.ToString();
             }
 
             return RedirectToAction("Add", viewModel);
