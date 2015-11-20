@@ -53,16 +53,10 @@ namespace Lab6.Repositories
             // Get the current student from the offering
             var currentStudent = _dbContext.Students.FirstOrDefault(s => s.StudentNum == student.StudentNum);
 
-            // If student is not registered
-            if (currentStudent == null)
-            {
-                courseOffering.Students.Add(student);
-            }
-            else
-            {
-                courseOffering.Students.Add(currentStudent);
-            }
+            // Add / Register student
+            courseOffering.Students.Add(currentStudent ?? student);
 
+            // Persist to the DB
             Save();
         }
 

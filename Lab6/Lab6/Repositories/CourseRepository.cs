@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Mapping;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
@@ -26,7 +27,9 @@ namespace Lab6.Repositories
 
         public List<Course> GetCourses()
         {
-            return _dbContext.Courses.ToList();
+            return (from c in _dbContext.Courses
+                orderby c.CourseTitle
+                select c).ToList();
         }
 
         public void InsertCourse(Course course)
