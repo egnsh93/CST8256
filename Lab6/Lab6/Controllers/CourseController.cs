@@ -18,7 +18,7 @@ namespace Lab6.Controllers
         // Populate Course View Model
         public CourseViewModel PopulateViewModel(CourseViewModel viewModel)
         {
-            viewModel.RegisteredCourses = _courseService.GetAllCourses().OrderBy(c => c.CourseTitle).ToList();
+            viewModel.RegisteredCourses = _courseService.GetAllCourses();
             return viewModel;
         }
 
