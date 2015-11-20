@@ -6,12 +6,14 @@ using Lab6.Models;
 
 namespace Lab6.Repositories
 {
-    public interface ICourseOfferingRepository
+    public interface ICourseOfferingRepository : IDisposable
     {
-        void InsertCourseOffering(CourseOffering courseOffering);
         CourseOffering GetCourseOfferingById(string id);
-        CourseOffering GetCourseOffering(string id, int year, string semester);
+        CourseOffering GetCourseOffering(int year, string semester, string id);
         List<CourseOffering> GetCourseOfferings();
         bool CourseOfferingExists(CourseOffering offering);
+        void InsertCourseOffering(CourseOffering courseOffering);
+        void InsertStudentIntoCourseOffering(Student student, CourseOffering courseOffering);
+        void Save();
     }
 }

@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Lab6.Models;
 
 namespace Lab6.Repositories
 {
-    public interface ICourseRepository
+    public interface ICourseRepository : IDisposable
     {
-        void InsertCourse(Course course);
         Course GetCourse(string id);
         List<Course> GetCourses();
+        void InsertCourse(Course course);
+        void Save();
     }
 }

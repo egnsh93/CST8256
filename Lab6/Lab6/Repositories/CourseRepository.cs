@@ -9,122 +9,52 @@ using Ninject;
 
 namespace Lab6.Repositories
 {
-    public class CourseRepository : ICourseRepository
+    public class CourseRepository : ICourseRepository, IDisposable
     {
-        private readonly string _connectionString;
+        private readonly StudentRegistrationEntities _dbContext;
+        private bool _disposed = false;
 
-        public CourseRepository()
+        public CourseRepository(StudentRegistrationEntities dbContext)
         {
-            _connectionString = WebConfigurationManager.ConnectionStrings["StudentRegistration"].ConnectionString;
-        }
-
-        public void InsertCourse(Course course)
-        {
-            using (var conn = new SqlConnection(_connectionString))
-            using (var cmd = conn.CreateCommand())
-            {
-                // Open a connection
-                conn.Open();
-
-                // Build SQL query
-                cmd.CommandText = "INSERT INTO Course (CourseID, CourseTitle, HoursPerWeek) VALUES (@courseID, @courseTitle, @courseHours)";
-
-                // Insert parameters into the course table
-                cmd.Parameters.AddWithValue("@courseID", course.Number);
-                cmd.Parameters.AddWithValue("@courseTitle", course.Name);
-                cmd.Parameters.AddWithValue("@courseHours", course.WeeklyHours);
-
-                // Perform the INSERT operation
-                cmd.ExecuteNonQuery();
-            }
+            _dbContext = dbContext;
         }
 
         public Course GetCourse(string id)
         {
-            Course course = null;
-
-            using (var conn = new SqlConnection(_connectionString))
-            using (var cmd = conn.CreateCommand())
-            {
-                // Open a connection
-                conn.Open();
-
-                // Build SQL query
-                cmd.CommandText = "SELECT * FROM Course WHERE CourseID = @courseID";
-
-                // Set the course ID
-                cmd.Parameters.AddWithValue("@courseID", id);
-
-                // Create DataReader for storing the returning table into memory
-                var dataReader = cmd.ExecuteReader();
-
-                // Check if the Course table has records
-                if (dataReader.HasRows)
-                {
-                    // Iterate through each record
-                    while (dataReader.Read())
-                    {
-                        // Extract the course fields
-                        var number = dataReader["CourseID"].ToString();
-                        var name = dataReader["CourseTitle"].ToString();
-                        var weeklyHours = Convert.ToInt16(dataReader["HoursPerWeek"]);
-
-                        // Return the matched course
-                        course = new Course(number, name, weeklyHours);
-                    }
-                }
-
-                // Close the DataReader
-                dataReader.Close();
-
-                // Execute the SELECT operation
-                cmd.ExecuteNonQuery();
-            }
-            return course;
+            return _dbContext.Courses.Find(id);
         }
 
         public List<Course> GetCourses()
         {
-            var courses = new List<Course>();
+            return _dbContext.Courses.ToList();
+        }
 
-            using (var conn = new SqlConnection(_connectionString))
-            using (var cmd = conn.CreateCommand())
+        public void InsertCourse(Course course)
+        {
+            _dbContext.Courses.Add(course);
+        }
+
+        public void Save()
+        {
+            _dbContext.SaveChanges();
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!_disposed)
             {
-                // Open a connection
-                conn.Open();
-
-                // Build SQL query
-                cmd.CommandText = "SELECT * FROM Course";
-
-                // Create DataReader for storing the returning table into memory
-                var dataReader = cmd.ExecuteReader();
-
-                // Check if the Course table has records
-                if (dataReader.HasRows)
+                if (disposing)
                 {
-                    // Iterate through each record
-                    while (dataReader.Read())
-                    {
-                        // Extract the course fields
-                        var number = dataReader["CourseID"].ToString();
-                        var name = dataReader["CourseTitle"].ToString();
-                        var weeklyHours = Convert.ToInt16(dataReader["HoursPerWeek"]);
-
-                        // Build the course object
-                        var course = new Course(number, name, weeklyHours);
-
-                        // Append to the course list
-                        courses.Add(course);
-                    }
+                    _dbContext.Dispose();
                 }
-
-                // Close the DataReader
-                dataReader.Close();
-
-                // Execute the SELECT operation
-                cmd.ExecuteNonQuery();
             }
-            return courses;
+            _disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }
