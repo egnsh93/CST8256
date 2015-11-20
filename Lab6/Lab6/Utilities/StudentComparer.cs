@@ -19,7 +19,7 @@ namespace Lab6.Utilities
                 // If students have the same type
                 return a.ToString().Equals(b.ToString())
                     // Sort by student number
-                    ? a.Number.CompareTo(b.Number)
+                    ? string.Compare(a.StudentNum, b.StudentNum, StringComparison.Ordinal)
                     // Sort by student type
                     : GetStudentTypeValue(a.GetType()).CompareTo(GetStudentTypeValue(b.GetType()));
             }
@@ -29,9 +29,9 @@ namespace Lab6.Utilities
 
         public static int GetStudentTypeValue(Type studentType)
         {
-            if (studentType == typeof (FullTimeStudent))
+            if (studentType == typeof (FulltimeStudent))
                 return 1;
-            if (studentType == typeof (PartTimeStudent))
+            if (studentType == typeof (ParttimeStudent))
                 return 2;
             if (studentType == typeof (CoopStudent))
                 return 3;

@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Bin\EntityFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -55,6 +59,10 @@
     </Reference>
     <Reference Include="Ninject.Web.Common, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.Web.Common.3.2.3.0\lib\net45-full\Ninject.Web.Common.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Ninject.Web.Mvc, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.MVC3.3.2.1.0\lib\net45-full\Ninject.Web.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -149,21 +157,27 @@
     <Compile Include="Models\CoopStudent.cs">
       <DependentUpon>StudentRegistrationEFModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CoopStudent.partial.cs" />
     <Compile Include="Models\Course.cs">
       <DependentUpon>StudentRegistrationEFModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Course.partial.cs" />
     <Compile Include="Models\CourseOffering.cs">
       <DependentUpon>StudentRegistrationEFModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CourseOffering.partial.cs" />
     <Compile Include="Models\FulltimeStudent.cs">
       <DependentUpon>StudentRegistrationEFModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\FulltimeStudent.partial.cs" />
     <Compile Include="Models\ParttimeStudent.cs">
       <DependentUpon>StudentRegistrationEFModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ParttimeStudent.partial.cs" />
     <Compile Include="Models\Student.cs">
       <DependentUpon>StudentRegistrationEFModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Student.partial.cs" />
     <Compile Include="Models\StudentRegistrationEFModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

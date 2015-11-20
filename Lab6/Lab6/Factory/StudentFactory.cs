@@ -8,14 +8,14 @@ namespace Lab6.Factory
 {
     public class StudentFactory
     {
-        public Student CreateStudent(int number, string name, string type)
+        public Student CreateStudent(string number, string name, string type)
         {
             switch (type)
             {
                 case "Full Time":
-                    return new FullTimeStudent(number, name);
+                    return new FulltimeStudent(number, name);
                 case "Part Time":
-                    return new PartTimeStudent(number, name);
+                    return new ParttimeStudent(number, name);
                 case "Coop":
                     return new CoopStudent(number, name);
             }

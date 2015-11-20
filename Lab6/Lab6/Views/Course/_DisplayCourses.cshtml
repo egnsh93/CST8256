@@ -23,9 +23,9 @@
         @foreach (var course in Model.RegisteredCourses)
         {
             <tr>
-                <td>@course.Number</td>
-                <td>@course.Name</td>
-                <td>@course.WeeklyHours</td>
+                <td>@course.CourseID</td>
+                <td>@course.CourseTitle</td>
+                <td>@course.HoursPerWeek</td>
             </tr>
         }
     </tbody>

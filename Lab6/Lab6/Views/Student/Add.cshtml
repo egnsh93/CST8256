@@ -25,7 +25,7 @@
                 <option value="">Please select an offering...</option>
                 @foreach (var offering in Model.CourseOfferings)
                 {
-                    <option value="@offering.CourseOffered.Number" data-year="@offering.Year" data-semester="@offering.Semester">@offering.ToString()</option>
+                    <option value="@offering.Course_CourseID" data-year="@offering.Year" data-semester="@offering.Semester">@offering.ToString()</option>
                 }
             </select>
         </div>

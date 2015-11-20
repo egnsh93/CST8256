@@ -24,8 +24,8 @@
         @foreach (var offering in Model.CourseOfferings)
         {
             <tr>
-                <td>@offering.CourseOffered.Number</td>
-                <td>@offering.CourseOffered.Name</td>
+                <td>@offering.Course_CourseID</td>
+                <td>@offering.Course.CourseTitle</td>
                 <td>@offering.Year</td>
                 <td>@offering.Semester</td>
             </tr>

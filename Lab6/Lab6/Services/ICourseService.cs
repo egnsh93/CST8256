@@ -13,11 +13,11 @@ namespace Lab6.Services
         void AddStudent(Student student, CourseOffering offering);
 
         Course GetCourseById(string id);
-        CourseOffering GetCourseOffering(string id, int year, string semester);
+        CourseOffering GetCourseOffering(int year, string semester, string id);
         CourseOffering GetCourseOfferingById(string id);
 
         List<Course> GetAllCourses();
         List<CourseOffering> GetAllCourseOfferings();
-        List<Student> GetAllStudentsByOffering(CourseOffering offering);
+        List<Student> GetStudents(CourseOffering offering);
     }
 }

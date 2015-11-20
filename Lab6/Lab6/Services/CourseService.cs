@@ -21,7 +21,11 @@ namespace Lab6.Services
             _studentRepository = studentRepository;
         }
 
-        public void AddCourse(Course course) => _courseRepository.InsertCourse(course);
+        public void AddCourse(Course course)
+        {
+            _courseRepository.InsertCourse(course);
+            _courseRepository.Save();
+        } 
 
         public void AddCourseOffering(CourseOffering offering)
         {
@@ -31,41 +35,23 @@ namespace Lab6.Services
 
             // Insert the course offering
             _courseOfferingRepository.InsertCourseOffering(offering);
+            _courseOfferingRepository.Save();
         }
 
         public void AddStudent(Student student, CourseOffering offering)
         {
-            // If the student does not yet exist
-            if (!_studentRepository.StudentExists(student.Number))
-            {
-                // Insert the student into the DB
-                _studentRepository.InsertStudent(student);
-
-                // Register the student to the course offering
-                _studentRepository.RegisterStudent(student, offering);
-            }
-            else
-            {
-                // Check if student is registered in offering
-                var studentExists = _studentRepository.GetStudentsByOffering(offering).Find(s => s.Number == student.Number);
-
-                // If student is not registered
-                if (studentExists == null)
-
-                    // Register the student
-                    _studentRepository.RegisterStudent(student, offering);
-            }   
+            _courseOfferingRepository.InsertStudentIntoCourseOffering(student, offering);
         }
 
         public Course GetCourseById(string id) => _courseRepository.GetCourse(id);
-        public CourseOffering GetCourseOffering(string id, int year, string semester) => _courseOfferingRepository.GetCourseOffering(id, year, semester);
+        public CourseOffering GetCourseOffering(int year, string semester, string id) => _courseOfferingRepository.GetCourseOffering(year, semester, id);
         public CourseOffering GetCourseOfferingById(string id) => _courseOfferingRepository.GetCourseOfferingById(id);
 
         public List<Course> GetAllCourses() => _courseRepository.GetCourses();
 
         public List<CourseOffering> GetAllCourseOfferings() => _courseOfferingRepository.GetCourseOfferings();
 
-        public List<Student> GetAllStudentsByOffering(CourseOffering offering) => _studentRepository.GetStudentsByOffering(offering);
+        public List<Student> GetStudents(CourseOffering offering) => _studentRepository.GetStudents(offering);
 
     }
 }
