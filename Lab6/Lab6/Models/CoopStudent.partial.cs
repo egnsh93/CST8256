@@ -17,6 +17,6 @@ namespace Lab6.Models
 
         public override string ToString() => "Coop";
 
-        public override double? TuitionPayable() => CoopFee + (CourseOfferings.Sum(courseOffering => courseOffering.CourseOffered.HoursPerWeek)) * Course.CourseHourlyFeeRate;
+        public override double? TuitionPayable() => CoopFee + (CourseOfferings.Sum(courseOffering => courseOffering.Course.HoursPerWeek)) * Course.CourseHourlyFeeRate;
     }
 }
