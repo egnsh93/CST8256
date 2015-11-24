@@ -6,7 +6,8 @@
     <title>@ViewBag.Title - Algonquin College</title>
     <link rel="icon" href="http://www3.algonquincollege.com/sat/wp-content/themes/algonquincollege2013/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" id="stylecss" href="http://www3.algonquincollege.com/sat/wp-content/themes/algonquincollege2013/style.css" type="text/css" media="all" />
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/css/vendor/bootstrap.css")
+    @Styles.Render("~/Content/css/styles.css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body>
@@ -101,6 +102,7 @@
     </footer>
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", false)
 
