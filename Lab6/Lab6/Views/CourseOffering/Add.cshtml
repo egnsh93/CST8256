@@ -10,14 +10,11 @@
     <h1>Add New Course Offering</h1>
 </div>
 
-@if (TempData["Error"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["Error"]
-    </div>
-}
+<div id="resultNotification" class="alert">
+        
+</div>
 
-@using (Html.BeginForm("Add", "CourseOffering", FormMethod.Post, new { @class = "form-horizontal" }))
+@using (Html.BeginForm("Add", "CourseOffering", FormMethod.Post, new { @class = "form-horizontal", id="submitOffering" }))
 {
     <div class="form-group">
         @Html.LabelFor(m => m.SelectedCourseId, new {@class = "col-sm-3 control-label"})
@@ -29,7 +26,14 @@
                 new {@class = "form-control"}
                 )
 
-            @Html.ValidationMessageFor(m => m.SelectedCourseId)
+            @Html.ValidationMessageFor(m => m.SelectedCourseId, null, new {@class = "text-danger"} )
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description, new {@class = "col-sm-3 control-label"})
+        <div class="col-sm-9">
+            @Html.TextAreaFor(m => m.Description, 8, 20, new {@class = "form-control", @readonly = "readonly" })
         </div>
     </div>
 
@@ -42,7 +46,7 @@
                 new {@class = "form-control"}
             )
 
-            @Html.ValidationMessageFor(m => m.Semester)
+            @Html.ValidationMessageFor(m => m.Semester, null, new { @class = "text-danger" })
         </div>
     </div>
 
@@ -56,7 +60,7 @@
                 new { @class = "form-control" }
             )
 
-            @Html.ValidationMessageFor(m => m.SelectedYear)
+            @Html.ValidationMessageFor(m => m.SelectedYear, null, new { @class = "text-danger" })
         </div>
     </div>
 
@@ -67,4 +71,78 @@
     </div>
 }
 
-@{ Html.RenderPartial("_DisplayOfferings"); }
+<div id="courseOfferings">
+
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(function() {
+            // Course offering page on dropdown change
+            $('#SelectedCourseId').change(function(e) {
+                // If valid according to unobtrusive JS
+                if ($(this).valid()) {
+                    $.ajax({
+                        type: $(this).action,
+                        url: '/CourseOffering/List',
+                        data: { courseId: $(this).val() },
+                        dataType: "json",
+                        cache: false,
+                        success: function(data) {
+                            $('#courseOfferings').html(data.partial);
+                            $('#Description').val(data.description);
+                        }
+                    });
+                }
+            });
+
+            // Course offering page on submit
+            $('#submitOffering').submit(function(e) {
+
+                e.preventDefault();
+
+                // If valid according to unobtrusive JS
+                if ($(this).valid()) {
+
+                    // Properties to send to controller
+                    var properties = {
+                        SelectedCourseId: $("#SelectedCourseId").val(),
+                        Semester: $("#Semester").val(),
+                        SelectedYear: $("#SelectedYear").val()
+                    };
+
+                    // Request to post the selected offering
+                    $.post($(this).url, properties, function(data) {
+
+                            // Determine which alert type to display
+                            if (data.error === true) {
+                                $("#resultNotification").removeClass("alert-success");
+                                $("#resultNotification").addClass("alert-danger");
+                            } else {
+                                $("#resultNotification").removeClass("alert-danger");
+                                $("#resultNotification").addClass("alert-success");
+                            }
+
+                        })
+                        .success(function(data) {
+
+                            $("#resultNotification").show().text(data.message).delay(4000);
+                            $("#resultNotification").fadeOut("slow");
+
+                            // Reset Semester and Year dropdowns to default value
+                            $('#Semester option:eq(0)').attr('selected', 'selected');
+                            $('#SelectedYear option:eq(0)').attr('selected', 'selected');
+
+                            // Get the course offerings with a specific ID
+                            $.get("/CourseOffering/List", { courseId: properties.SelectedCourseId })
+                                .success(function(result) {
+                                    // Load offerings into HTML
+                                    $('#courseOfferings').html(result.partial);
+                                });
+                        });
+                }
+            });
+        });
+    </script>
+}
