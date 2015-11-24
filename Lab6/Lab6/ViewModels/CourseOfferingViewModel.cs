@@ -21,6 +21,8 @@ namespace Lab6.ViewModels
         [Required(ErrorMessage = "Required"), DisplayName("Year")]
         public int SelectedYear { get; set; }
 
+        public string Description { get; set; }
+
         public List<Course> Courses { get; set; }
         public List<CourseOffering> CourseOfferings { get; set; } 
         public IEnumerable<SelectListItem> Years { get; set; }
