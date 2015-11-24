@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -41,36 +42,68 @@ namespace Lab6.Controllers
         public ActionResult Add() => View(PopulateViewModel(new CourseOfferingViewModel()));
 
         [HttpPost]
-        public ActionResult Add(CourseOfferingViewModel input)
+        public JsonResult Add(CourseOfferingViewModel viewModel)
         {
             // Populate VM
-            var viewModel = PopulateViewModel(input);
+            viewModel = PopulateViewModel(viewModel);
 
             // Validate model state
             if (!ModelState.IsValid)
-                return View(viewModel);
+                return Json(new { error = true, message = "There were errors in the submission"});
 
             // Attempt to add the offering
             try
             {
                 var offering = new CourseOffering()
                 {
-                    Course_CourseID = input.SelectedCourseId,
-                    Semester = input.Semester.ToString(),
-                    Year = input.SelectedYear
+                    Course_CourseID = viewModel.SelectedCourseId,
+                    Semester = viewModel.Semester.ToString(),
+                    Year = viewModel.SelectedYear
                 };
 
                 _courseService.AddCourseOffering(offering);
-                input.CourseOfferings.Add(offering);
 
             }
             catch (CourseOfferingExistsException)
             {
                 // If the offering already exists, display error
-                TempData["Error"] = "Course offering already exists!";
+                return Json(new { error = true, message = "Course offering already exists" });
             }
 
-            return RedirectToAction("Add", input);
+            return Json(new { error = false, message = "Course offering successfully created!" });
+        }
+
+        public JsonResult List(string courseId)
+        {
+            // Get the selected course offerings
+            var offerings = _courseService.GetAllCourseOfferings().Where(o => o.Course_CourseID == courseId).ToList();
+
+            // Update view model with the list of offerings and selected course description
+            var viewModel = new CourseOfferingViewModel()
+            {
+                CourseOfferings = offerings,
+                Description = _courseService.GetCourseById(courseId).Description
+            };
+
+            // Return a Json object with the course description and the partial view
+            return Json(new { description = viewModel.Description, partial = RenderPartialViewToString("_DisplayOfferings", viewModel) }, JsonRequestBehavior.AllowGet);
+        }
+
+        protected string RenderPartialViewToString(string viewName, object model)
+        {
+            if (string.IsNullOrEmpty(viewName))
+                viewName = ControllerContext.RouteData.GetRequiredString("action");
+
+            ViewData.Model = model;
+
+            using (var sw = new StringWriter())
+            {
+                var viewResult = ViewEngines.Engines.FindPartialView(ControllerContext, viewName);
+                var viewContext = new ViewContext(ControllerContext, viewResult.View, ViewData, TempData, sw);
+                viewResult.View.Render(viewContext, sw);
+
+                return sw.GetStringBuilder().ToString();
+            }
         }
     }
 }
