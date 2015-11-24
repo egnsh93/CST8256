@@ -40,6 +40,11 @@ namespace Lab6.Services
 
         public void AddStudent(Student student, CourseOffering offering)
         {
+            // Check if the student already exists in the offering
+            if (_studentRepository.StudentExists(offering, student.StudentNum))
+                throw new StudentExistsException();
+
+            // Insert the student into the offering
             _courseOfferingRepository.InsertStudentIntoCourseOffering(student, offering);
         }
 

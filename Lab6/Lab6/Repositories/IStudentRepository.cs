@@ -9,7 +9,7 @@ namespace Lab6.Repositories
     public interface IStudentRepository : IDisposable
     {
         List<Student> GetStudents(CourseOffering offering);
-        bool StudentExists(string number);
+        bool StudentExists(CourseOffering offering, string number);
         void InsertStudent(Student student);
         void Save();
     }

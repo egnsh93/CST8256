@@ -24,9 +24,9 @@ namespace Lab6.Repositories
             return offering.Students.ToList();
         }
 
-        public bool StudentExists(string number)
+        public bool StudentExists(CourseOffering offering, string number)
         {
-            return _dbContext.Students.Any(s => s.StudentNum == number.ToString());
+            return offering.Students.FirstOrDefault(s => s.StudentNum == number) != null;
         }
 
         public void InsertStudent(Student student)
