@@ -11,7 +11,7 @@ namespace Lab6.ViewModels
     public class StudentViewModel
     {
         [Required(ErrorMessage = "Required"), DisplayName("Course Offering")]
-        public string SelectedCourseId { get; set; }
+        public string SelectedOffering { get; set; }
 
         [Required(ErrorMessage = "Required"), DisplayName("Student Number")]
         public int Number { get; set; }

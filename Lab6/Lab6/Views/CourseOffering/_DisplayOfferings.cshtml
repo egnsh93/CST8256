@@ -14,21 +14,21 @@
         </tr>
     </thead>
     <tbody>
-        @if (!Model.CourseOfferings.Any())
-        {
-            <tr>
-                <td colspan="4">No course offerings records found</td>
-            </tr>
-        }
+    @if (!Model.CourseOfferings.Any())
+    {
+        <tr>
+            <td colspan="4">No course offerings records found</td>
+        </tr>
+    }
 
-        @foreach (var offering in Model.CourseOfferings)
-        {
-            <tr>
-                <td>@offering.Course_CourseID</td>
-                <td>@offering.Course.CourseTitle</td>
-                <td>@offering.Year</td>
-                <td>@offering.Semester</td>
-            </tr>
-        }
+    @foreach (var offering in Model.CourseOfferings)
+    {
+        <tr>
+            <td>@offering.Course_CourseID</td>
+            <td>@offering.Course.CourseTitle</td>
+            <td>@offering.Year</td>
+            <td>@offering.Semester</td>
+        </tr>
+    }
     </tbody>
 </table>
