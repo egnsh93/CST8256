@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using Lab6.Exceptions;
 using Lab6.Models;
 using Lab6.Services;
 using Lab6.ViewModels;
@@ -26,30 +27,49 @@ namespace Lab6.Controllers
         public ActionResult Add() => View(PopulateViewModel(new CourseViewModel()));
 
         [HttpPost]
-        public ActionResult Add(CourseViewModel input)
+        public JsonResult Add(CourseViewModel input)
         {
-            // Populate VM
-            var viewModel = PopulateViewModel(input);
-
-            // Check for already existing course
-            var courseExists = viewModel.RegisteredCourses.Find(c => c.CourseID == input.Number);
-
-            if (courseExists != null)
-                ModelState.AddModelError("Number", "ID already exists");
-
             // Validate model state
             if (!ModelState.IsValid)
-                return View(viewModel);
+                return Json(new { error = true, message = "There were errors in the submission" });
 
-            // Insert course into database via repository
-            _courseService.AddCourse(new Course
+            // Attempt to add the course
+            try
             {
-                CourseID = input.Number,
-                CourseTitle = input.Name,
-                HoursPerWeek = input.WeeklyHours
-            });
+                // Build the course object
+                var course = new Course()
+                {
+                    CourseID = input.Number,
+                    CourseTitle = input.Name,
+                    HoursPerWeek = input.WeeklyHours
+                };
 
-            return RedirectToAction("Add");
+                // Add the course
+                _courseService.AddCourse(course);
+
+            }
+            catch (CourseExistsException)
+            {
+                // If the course already exists, display error
+                return Json(new { error = true, message = "Course already exists" });
+            }
+
+            return Json(new { error = false, message = "Course successfully created!" });
+        }
+
+        public PartialViewResult List()
+        {
+            // Get the selected course offerings
+            var courses = _courseService.GetAllCourses().OrderBy(m => m.CourseTitle).ToList();
+
+            // Update view model with the list of offerings and selected course description
+            var viewModel = new CourseViewModel()
+            {
+                RegisteredCourses = courses,
+            };
+
+            // Return a Json object with the course description and the partial view
+            return PartialView("_DisplayCourses", viewModel);
         }
     }
 }
