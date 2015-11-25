@@ -23,6 +23,10 @@ namespace Lab6.Services
 
         public void AddCourse(Course course)
         {
+            // If a course offering already exists, throw custom exception
+            if (_courseRepository.CourseExists(course))
+                throw new CourseExistsException();
+
             _courseRepository.InsertCourse(course);
             _courseRepository.Save();
         } 

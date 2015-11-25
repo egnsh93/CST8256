@@ -32,6 +32,11 @@ namespace Lab6.Repositories
                 select c).ToList();
         }
 
+        public bool CourseExists(Course course)
+        {
+            return _dbContext.Courses.Any(c => c.CourseID == course.CourseID);
+        }
+
         public void InsertCourse(Course course)
         {
             _dbContext.Courses.Add(course);

@@ -8,6 +8,7 @@ namespace Lab6.Repositories
     {
         Course GetCourse(string id);
         List<Course> GetCourses();
+        bool CourseExists(Course course);
         void InsertCourse(Course course);
         void Save();
     }
