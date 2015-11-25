@@ -19,6 +19,9 @@ namespace Lab6.ViewModels
         [DisplayName("Weekly Hours"), Required(ErrorMessage = "Required")]
         public int WeeklyHours { get; set; }
 
+        [Required(ErrorMessage = "Required")]
+        public string Description { get; set; }
+
         public List<Course> RegisteredCourses { get; set; }
     }
 }
