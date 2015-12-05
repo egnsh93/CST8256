@@ -1,0 +1,205 @@
+﻿@model Lab9.ViewModels.CourseViewModel
+@{
+    ViewBag.Title = "Course Management";
+    ViewBag.HeaderImageSrc = @Url.Content("~/Content/images/SAT.png");
+    ViewBag.HeaderImageAlt = "School of Advanced Technology";
+}
+
+<div class="page-header">
+    <h1>Course Management</h1>
+</div>
+
+<div id="resultNotification" class="alert">
+
+</div>
+
+<div id="addCourseWrap">
+    @{ Html.RenderPartial("_AddCourse"); }
+</div>
+
+<div class="page-header" style="margin-top: 50px;">
+    <h3>Registered Courses</h3>
+</div>
+
+@Html.AjaxGrid(Url.Action("List", "Course"))
+
+@section Scripts
+{
+    <script type="text/javascript">
+        // Instantiate the MVC grid on page load
+        $(".mvc-grid").mvcgrid({
+            rowClicked: function(grid, row, data) {
+                $(row).siblings().removeClass('selected');
+                $(row).toggleClass('selected');
+
+                // If a row has been clicked
+                if ($(row).hasClass('selected')) {
+
+                    // Get the course ID of the selected table row
+                    var courseId = $(".selected .courseCode").text();
+
+                    // Make an AJAX get request and retrieve course data by ID
+                    $.ajax({
+                        type: "POST",
+                        url: "/Course/GetSelected",
+                        data: { courseId: courseId },
+                        dataType: "json",
+                        cache: false,
+                        success: function(result) {
+
+                            // Populate the form with the selected course fields
+                            $("#courseNumber").val(result.id);
+                            $("#courseName").val(result.name);
+                            $("#courseHours").val(result.hours);
+                            $("#Description").val(result.description);
+
+                            // Disable the course number field
+                            $("#courseNumber").prop("disabled", true);
+
+                        },
+                        error: function(xhr, status, error) {
+                            var err = eval("(" + xhr.responseText + ")");
+                            alert(err.Message);
+                        }
+                    });
+                }
+            }
+        });
+
+        $(function() {
+
+            // When the course form is submitted
+            $("#submitCourse").submit(function(e) {
+
+                e.preventDefault();
+
+                // If valid according to unobtrusive JS
+                if ($(this).valid()) {
+
+                    // Properties to send to controller
+                    var properties = {
+                        Number: $("#courseNumber").val(),
+                        Name: $("#courseName").val(),
+                        WeeklyHours: $("#courseHours").val(),
+                        Description: $("#Description").val()
+                    };
+
+                    // Request to post the selected offering
+                    $.post(this.action, properties, function(data) {
+
+                            // Determine which alert type to display
+                            if (data.error === true) {
+                                $("#resultNotification").removeClass("alert-success");
+                                $("#resultNotification").addClass("alert-danger");
+                            } else {
+                                $("#resultNotification").removeClass("alert-danger");
+                                $("#resultNotification").addClass("alert-success");
+                            }
+
+                        })
+                        .success(function(data) {
+                            $("#resultNotification").show().text(data.message).delay(4000);
+                            $("#resultNotification").fadeOut("slow");
+
+                            // Clear form fields
+                            $("#courseNumber").val("");
+                            $("#courseName").val("");
+                            $("#courseHours").val("");
+                            $("#Description").val("");
+
+                            // Reload the registered courses
+                            $(".mvc-grid").mvcgrid({
+                                reload: true
+                            });
+                        });
+                }
+            });
+
+            // When the cancel button is clicked
+            $("#cancel").click(function(e) {
+
+                // Disable selected row
+                $(".mvc-grid-row").removeClass('selected');
+
+                // Clear form fields
+                $("#courseNumber").val("");
+                $("#courseName").val("");
+                $("#courseHours").val("");
+                $("#Description").val("");
+
+                // Enable the course code field
+                $("#courseNumber").prop("disabled", false);
+
+            });
+        });
+
+        // Only run when all AJAX requests are complete
+        $(document).ajaxComplete(function () {
+
+            // Unbind the previous click handler
+            $(".btn-delete").unbind();
+
+            // When delete is clicked
+            $(".btn-delete").click(function (e) {
+
+                // Stop the parent handler from firing
+                if (e.stopPropagation) e.stopPropagation();
+
+                // Get the clicked table row
+                var tr = $(this).parent().parent();
+
+                // Get the course code of the current row
+                var courseId = tr.find(".courseCode").text();
+
+                // Delete course
+                $.ajax({
+                    type: "POST",
+                    url: "/Course/Delete",
+                    data: { courseId: courseId },
+                    dataType: "json",
+                    cache: false,
+                    success: function(data) {
+                
+                        // Determine which alert type to display
+                        if (data.error === true) {
+                            $("#resultNotification").removeClass("alert-success");
+                            $("#resultNotification").addClass("alert-danger");
+                        } else {
+                            $("#resultNotification").removeClass("alert-danger");
+                            $("#resultNotification").addClass("alert-success");
+                        }
+                
+                        // Reload the registered courses
+                        tr.addClass("danger").fadeIn("slow");
+                        tr.delay(500).fadeOut("slow", function () {
+                            $(".mvc-grid").mvcgrid({
+                                reload: true
+                            });
+                        });
+
+                        // Display success message
+                        $("#resultNotification").show().text(data.message).delay(4000);
+                        $("#resultNotification").fadeOut("slow");
+
+                        // Clear form fields
+                        $("#courseNumber").val("");
+                        $("#courseName").val("");
+                        $("#courseHours").val("");
+                        $("#Description").val("");
+                
+                        // Disable the course number field
+                        $("#courseNumber").prop("disabled", false);
+                
+                    },
+                    error: function(xhr, status, error) {
+                        var err = eval("(" + xhr.responseText + ")");
+                        alert(err.Message);
+                    }
+                });
+});
+        });
+
+    </script>
+
+    @*<script type="text/javascript" src="~/Scripts/course.js"></script>*@
+}

@@ -1,0 +1,83 @@
+﻿@model Lab9.ViewModels.StudentViewModel
+@{
+    ViewBag.Title = "Register Students";
+    ViewBag.HeaderImageSrc = @Url.Content("~/Content/images/SAT.png");
+    ViewBag.HeaderImageAlt = "School of Advanced Technology";
+}
+
+<div class="page-header">
+    <h1>Register Students</h1>
+</div>
+
+<div id="resultNotification" class="alert">
+
+</div>
+
+@using (Html.BeginForm("Add", "Student", FormMethod.Post, new { @class = "form-horizontal", id = "submitStudent" }))
+{
+    <div class="form-group">
+        <label class="col-sm-3 control-label" for="SelectedOffering">Offering</label>
+        <div class="col-sm-9">
+            <select class="form-control" data-val="true" data-val-required="Required" id="SelectedOffering" name="SelectedOffering">
+                <option value="">Please select an offering...</option>
+                @foreach (var offering in Model.CourseOfferings)
+                {
+                    <option value="@offering.Course_CourseID" data-year="@offering.Year" data-semester="@offering.Semester">@offering.ToString()</option>
+                }
+            </select>
+            @Html.ValidationMessageFor(m => m.SelectedOffering, null, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Number, new { @class = "col-sm-3 control-label" })
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.Number, new { @class = "form-control", name = "studentNumber", id = "studentNumber", placeholder = "Student Number" })
+            @Html.ValidationMessageFor(m => m.Number, null, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "col-sm-3 control-label" })
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", name = "studentName", id = "studentName", placeholder = "Student Name" })
+            @Html.ValidationMessageFor(m => m.Name, null, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Type, new { @class = "col-sm-3 control-label" })
+        <div class="radio radio-inline control-label">
+            <label>
+                @Html.RadioButtonFor(m => m.Type, "Full Time", new { name = "type", id = "fullTime", @checked = true }) Full Time
+            </label>
+        </div>
+
+        <div class="radio radio-inline control-label">
+            <label>
+                @Html.RadioButtonFor(m => m.Type, "Part Time", new { name = "type", id = "partTime" }) Part Time
+            </label>
+        </div>
+
+        <div class="radio radio-inline control-label">
+            <label>
+                @Html.RadioButtonFor(m => m.Type, "Coop", new { name = "type", id = "coop" }) Coop
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button id="submit SubmitStudent" type="submit" class="btn btn-success">Add to Course Offering</button>
+        </div>
+    </div>
+}
+
+<div id="studentsInOffering">
+    
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/Scripts/student.js"></script>
+}

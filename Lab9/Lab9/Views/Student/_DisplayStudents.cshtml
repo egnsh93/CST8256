@@ -1,0 +1,39 @@
+﻿@model Lab9.ViewModels.StudentViewModel
+
+<div class="page-header" style="margin-top: 50px;">
+    <h3>Registered Students in Offering</h3>
+</div>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Tuition Payable</th>
+        </tr>
+    </thead>
+    <tbody>
+
+        @if (Model.Students.Any())
+        {
+            foreach (var student in Model.Students)
+            {
+                <tr>
+                    <td>@student.StudentNum</td>
+                    <td>@student.Name</td>
+                    <td>@student.ToString()</td>
+                    <td>@student.TuitionPayable()</td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="3">No students registered in selected offering</td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+

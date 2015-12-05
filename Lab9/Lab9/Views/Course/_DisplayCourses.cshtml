@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Lab9.Models.Course>
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+    columns.Add(model => model.CourseID).Titled("Code").Css("courseCode");
+    columns.Add(model => model.CourseTitle).Titled("Title");
+    columns.Add(model => model.HoursPerWeek).Titled("Hours");
+    columns.Add(model => Html.Partial("_TableActions")).Encoded(false).Titled("Action");
+})
+    .Pageable(pager =>
+    {
+        pager.RowsPerPage = 5;
+    })
+    .Empty("No courses found")
+)
