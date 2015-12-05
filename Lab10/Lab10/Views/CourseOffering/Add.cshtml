@@ -1,0 +1,81 @@
+﻿@using Microsoft.Ajax.Utilities
+@model Lab10.ViewModels.CourseOfferingViewModel
+@{
+    ViewBag.Title = "Add New Course Offering";
+    ViewBag.HeaderImageSrc = @Url.Content("~/Content/images/SAT.png");
+    ViewBag.HeaderImageAlt = "School of Advanced Technology";
+}
+
+<div class="page-header">
+    <h1>Add New Course Offering</h1>
+</div>
+
+<div id="resultNotification" class="alert">
+        
+</div>
+
+@using (Html.BeginForm("Add", "CourseOffering", FormMethod.Post, new { @class = "form-horizontal", id="submitOffering" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.SelectedCourseId, new {@class = "col-sm-3 control-label"})
+        <div class="col-sm-9">
+            @Html.DropDownListFor(
+                m => m.SelectedCourseId,
+                new SelectList(Model.Courses, "CourseID", null),
+                "Select a Course...",
+                new {@class = "form-control"}
+                )
+
+            @Html.ValidationMessageFor(m => m.SelectedCourseId, null, new {@class = "text-danger"} )
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description, new {@class = "col-sm-3 control-label"})
+        <div class="col-sm-9">
+            @Html.TextAreaFor(m => m.Description, 8, 20, new {@class = "form-control", @readonly = "readonly" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Semester, new {@class = "col-sm-3 control-label"})
+        <div class="col-sm-9">
+            @Html.EnumDropDownListFor(
+                m => m.Semester,
+                "Select a Semester...",
+                new {@class = "form-control"}
+            )
+
+            @Html.ValidationMessageFor(m => m.Semester, null, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.SelectedYear, new { @class = "col-sm-3 control-label" })
+        <div class="col-sm-9">
+            @Html.DropDownListFor(
+                m => m.SelectedYear,
+                new SelectList(Model.Years, "Value", "Text"),
+                "Select a Year...",
+                new { @class = "form-control" }
+            )
+
+            @Html.ValidationMessageFor(m => m.SelectedYear, null, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button type="submit" class="btn btn-success">Add Course Offering</button>
+        </div>
+    </div>
+}
+
+<div id="courseOfferings">
+
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript" src="~/Scripts/offering.js"></script>
+}

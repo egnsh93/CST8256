@@ -1,0 +1,49 @@
+﻿/*
+    Bootstrap Overrides
+*/
+
+.page-header {
+    margin-top: 0;
+}
+
+.page-header h1 {
+    margin-top: 0;    
+}
+
+/*
+    Page Styles
+*/
+
+body {
+    background-color: #F0F0F0;
+}
+
+#main {
+    width: 660px;    
+}
+
+#resultNotification {
+    display: none;
+}
+
+.mvc-grid-row:hover {
+    cursor: pointer;    
+}
+
+.mvc-grid-row.selected {
+    background-color: #428bca;
+    color: #fff;
+}
+
+.mvc-grid-row.selected a {
+    color: #fff;
+}
+
+.editAnchor {
+    color: #026080;
+    text-decoration: underline;
+}
+
+.deleteCourse {
+    z-index: 9999;
+}
