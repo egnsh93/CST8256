@@ -1,0 +1,17 @@
+﻿@model IEnumerable<Lab10.Models.Employee>
+
+@(Html
+    .Grid(Model)
+    .Build(columns =>
+    {
+    columns.Add(model => model.Id).Titled("Id").Css("employeeId");
+    columns.Add(model => model.Name).Titled("Name");
+    columns.Add(model => model.Email).Titled("Email");
+    columns.Add(model => Html.Partial("_TableActions")).Encoded(false).Titled("Action");
+})
+    .Pageable(pager =>
+    {
+        pager.RowsPerPage = 5;
+    })
+    .Empty("No employees found")
+)

@@ -1,0 +1,63 @@
+﻿@model Lab10.ViewModels.ManageViewModel
+
+@using (Html.BeginForm("Create", "Manage", FormMethod.Post, new { @class = "form-horizontal", id = "addEmployee" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Id, new { @class = "col-sm-3 control-label" })
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.Id, new { @class = "form-control", id = "Id", placeholder = "Employee Id" })
+            @Html.ValidationMessageFor(m => m.Id)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "col-sm-3 control-label" })
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", id = "Name", placeholder = "Employee Name" })
+            @Html.ValidationMessageFor(m => m.Name)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-sm-3 control-label" })
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", id = "Email", type = "email", placeholder = "Employee Email" })
+            @Html.ValidationMessageFor(m => m.Email)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Password, new {@class = "col-sm-3 control-label"})
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.Password, new {@class = "form-control", placeholder = "Employee Password" })
+            @Html.ValidationMessageFor(m => m.Password)
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Role, new { @class = "col-sm-3 control-label" })
+        <div class="radio radio-inline control-label">
+            <label>
+                @Html.RadioButtonFor(m => m.Role, "Department Chair", new { name = "type", id = "chair", @checked = true }) Department Chair
+            </label>
+        </div>
+
+        <div class="radio radio-inline control-label">
+            <label>
+                @Html.RadioButtonFor(m => m.Role, "Coordinator", new { name = "type", id = "coordinator" }) Coordinator
+            </label>
+        </div>
+
+        <div class="radio radio-inline control-label">
+            <label>
+                @Html.RadioButtonFor(m => m.Role, "Instructor", new { name = "type", id = "instructor" }) Instructor
+            </label>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+            <button id="submit" name="submit" type="submit" class="btn btn-success">Add Employee</button>
+        </div>
+    </div>
+}

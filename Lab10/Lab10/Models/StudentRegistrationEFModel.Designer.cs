@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\Shane\Documents\Dev\Repos\Algonquin\CST8256\Lab10 - Copy\Lab10\Models\StudentRegistrationEFModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\Shane\Documents\Dev\Repos\Algonquin\CST8256\Lab10\Lab10\Models\StudentRegistrationEFModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

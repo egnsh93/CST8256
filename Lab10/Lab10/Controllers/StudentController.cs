@@ -11,6 +11,7 @@ using Lab10.ViewModels;
 
 namespace Lab10.Controllers
 {
+    [Authorize(Roles = "Department Chair, Instructor")]
     public class StudentController : Controller
     {
         private readonly ICourseService _courseService;

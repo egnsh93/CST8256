@@ -57,6 +57,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.2.0.0\lib\net45-full\Ninject.dll</HintPath>
       <Private>True</Private>
@@ -151,11 +152,14 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\NinjectWebCommon.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\CourseOfferingController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
     <Compile Include="Enums\Semester.cs" />
+    <Compile Include="Exceptions\EmployeeExistsException.cs" />
     <Compile Include="Exceptions\CourseExistsException.cs" />
     <Compile Include="Exceptions\CourseOfferingExistsException.cs" />
     <Compile Include="Exceptions\StudentExistsException.cs" />
@@ -163,6 +167,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\UserHelpers.cs" />
     <Compile Include="Models\CoopStudent.cs">
       <DependentUpon>StudentRegistrationEFModel.tt</DependentUpon>
     </Compile>
@@ -175,6 +180,9 @@
       <DependentUpon>StudentRegistrationEFModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\CourseOffering.partial.cs" />
+    <Compile Include="Models\Employee.cs">
+      <DependentUpon>StudentRegistrationEFModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\FulltimeStudent.cs">
       <DependentUpon>StudentRegistrationEFModel.tt</DependentUpon>
     </Compile>
@@ -183,6 +191,9 @@
       <DependentUpon>StudentRegistrationEFModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ParttimeStudent.partial.cs" />
+    <Compile Include="Models\Role.cs">
+      <DependentUpon>StudentRegistrationEFModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Student.cs">
       <DependentUpon>StudentRegistrationEFModel.tt</DependentUpon>
     </Compile>
@@ -211,10 +222,14 @@
     <Compile Include="Repositories\StudentRepository.cs" />
     <Compile Include="Services\CourseService.cs" />
     <Compile Include="Services\ICourseService.cs" />
+    <Compile Include="Repositories\IUserRepository.cs" />
+    <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="Utilities\CourseOfferingComparer.cs" />
     <Compile Include="Utilities\StudentComparer.cs" />
     <Compile Include="ViewModels\CourseOfferingViewModel.cs" />
     <Compile Include="ViewModels\CourseViewModel.cs" />
+    <Compile Include="ViewModels\LoginViewModel.cs" />
+    <Compile Include="ViewModels\ManageViewModel.cs" />
     <Compile Include="ViewModels\StudentViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -287,6 +302,12 @@
     <Content Include="Views\Shared\MvcGrid\_AjaxGrid.cshtml" />
     <Content Include="Views\Course\_AddCourse.cshtml" />
     <Content Include="Views\Course\_TableActions.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Shared\_LoginStatus.cshtml" />
+    <Content Include="Views\Manage\Index.cshtml" />
+    <Content Include="Views\Manage\_TableActions.cshtml" />
+    <Content Include="Views\Manage\_AddEmployee.cshtml" />
+    <Content Include="Views\Manage\_DisplayEmployees.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

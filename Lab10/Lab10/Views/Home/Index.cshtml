@@ -9,6 +9,32 @@
 </div>
 
 <h4>Welcome to Algonquin College's Course Registration System!</h4><br/>
-<p>Click the side buttons to add new courses, new course offerings, or register students to course offerings.</p>
 
+@if (User.Identity.IsAuthenticated)
+{
+    <p>Use the side buttons to perform any of the following actions:</p>
+    <ul>
+        @if (User.IsInRole("Department Chair"))
+        {
+            <li>Add Courses</li>
+            <li>Add Course Offerings</li>
+            <li>Register Students</li>
+            <li>Manage Employees</li>
+        }
 
+        @if (User.IsInRole("Coordinator"))
+        {
+            <li>Add Courses</li>
+            <li>Add Course Offerings</li>
+        }
+
+        @if (User.IsInRole("Instructor"))
+        {
+            <li>Register Students</li>
+        }
+    </ul>
+}
+else
+{
+    <p>Please @Html.ActionLink("Login", "Login", "Account") to use this website</p>
+}

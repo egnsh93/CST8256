@@ -28,5 +28,7 @@ namespace Lab10.Models
         public virtual DbSet<Course> Courses { get; set; }
         public virtual DbSet<CourseOffering> CourseOfferings { get; set; }
         public virtual DbSet<Student> Students { get; set; }
+        public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Role> Roles { get; set; }
     }
 }

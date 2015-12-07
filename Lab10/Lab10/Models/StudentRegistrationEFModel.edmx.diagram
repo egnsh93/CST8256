@@ -16,6 +16,9 @@
         <InheritanceConnector EntityType="StudentRegistrationModel.ParttimeStudent" />
         <EntityTypeShape EntityType="StudentRegistrationModel.CoopStudent" Width="1.5" PointX="8.375" PointY="4" />
         <InheritanceConnector EntityType="StudentRegistrationModel.CoopStudent" />
+        <EntityTypeShape EntityType="StudentRegistrationModel.Employee" Width="1.5" PointX="0.75" PointY="6.875" />
+        <EntityTypeShape EntityType="StudentRegistrationModel.Role" Width="1.5" PointX="3" PointY="7.125" />
+        <AssociationConnector Association="StudentRegistrationModel.Employee_Role" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

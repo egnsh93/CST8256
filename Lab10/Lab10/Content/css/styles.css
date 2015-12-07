@@ -47,3 +47,20 @@ body {
 .deleteCourse {
     z-index: 9999;
 }
+
+nav .admin-menu {
+    float: right !important;
+    padding-right: 16px;
+}
+
+nav .admin-menu .loggedin_user_name {
+    float: left;
+    font-size: 1em;
+    line-height: 55px;
+    color: #fff;
+    text-shadow: 1px 1px 1px #000;
+    padding: 0 16px;
+    border-left: 1px solid #555;
+    border-right: 1px solid #555;
+}
+

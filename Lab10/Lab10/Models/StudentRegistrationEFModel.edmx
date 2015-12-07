@@ -25,6 +25,23 @@
           <Property Name="Semester" Type="varchar" MaxLength="16" Nullable="false" />
           <Property Name="Course_CourseID" Type="varchar" MaxLength="16" Nullable="false" />
         </EntityType>
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="255" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee_Role">
+          <Key>
+            <PropertyRef Name="Employee_Id" />
+            <PropertyRef Name="Role_Id" />
+          </Key>
+          <Property Name="Employee_Id" Type="int" Nullable="false" />
+          <Property Name="Role_Id" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Registration">
           <Key>
             <PropertyRef Name="CourseOffering_Year" />
@@ -36,6 +53,13 @@
           <Property Name="CourseOffering_Semester" Type="varchar" MaxLength="16" Nullable="false" />
           <Property Name="CourseOffering_Course_CourseID" Type="varchar" MaxLength="16" Nullable="false" />
           <Property Name="Student_StudentNum" Type="varchar" MaxLength="16" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Role" Type="varchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Student">
           <Key>
@@ -85,10 +109,37 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_ToEmployee">
+          <End Role="Employee" Type="Self.Employee" Multiplicity="1" />
+          <End Role="Employee_Role" Type="Self.Employee_Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee_Role">
+              <PropertyRef Name="Employee_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ToRole">
+          <End Role="Role" Type="Self.Role" Multiplicity="1" />
+          <End Role="Employee_Role" Type="Self.Employee_Role" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Role">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Employee_Role">
+              <PropertyRef Name="Role_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="StudentRegistrationModelStoreContainer">
           <EntitySet Name="Course" EntityType="Self.Course" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CourseOffering" EntityType="Self.CourseOffering" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Employee_Role" EntityType="Self.Employee_Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Registration" EntityType="Self.Registration" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Role" EntityType="Self.Role" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_CourseOffering_ToCourse" Association="Self.FK_CourseOffering_ToCourse">
             <End Role="Course" EntitySet="Course" />
@@ -101,6 +152,14 @@
           <AssociationSet Name="FK_Registration_ToStudent" Association="Self.FK_Registration_ToStudent">
             <End Role="Student" EntitySet="Student" />
             <End Role="Registration" EntitySet="Registration" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ToEmployee" Association="Self.FK_ToEmployee">
+            <End Role="Employee" EntitySet="Employee" />
+            <End Role="Employee_Role" EntitySet="Employee_Role" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ToRole" Association="Self.FK_ToRole">
+            <End Role="Role" EntitySet="Role" />
+            <End Role="Employee_Role" EntitySet="Employee_Role" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -166,10 +225,38 @@
             <End Role="CourseOffering" EntitySet="CourseOfferings" />
             <End Role="Student" EntitySet="Students" />
           </AssociationSet>
+          <EntitySet Name="Employees" EntityType="StudentRegistrationModel.Employee" />
+          <EntitySet Name="Roles" EntityType="StudentRegistrationModel.Role" />
+          <AssociationSet Name="Employee_Role" Association="StudentRegistrationModel.Employee_Role">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Role" EntitySet="Roles" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="FulltimeStudent" BaseType="StudentRegistrationModel.Student" />
         <EntityType Name="ParttimeStudent" BaseType="StudentRegistrationModel.Student" />
         <EntityType Name="CoopStudent" BaseType="StudentRegistrationModel.Student" />
+        <EntityType Name="Employee">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Roles" Relationship="StudentRegistrationModel.Employee_Role" FromRole="Employee" ToRole="Role" />
+        </EntityType>
+        <EntityType Name="Role">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Role1" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Employees" Relationship="StudentRegistrationModel.Employee_Role" FromRole="Role" ToRole="Employee" />
+        </EntityType>
+        <Association Name="Employee_Role">
+          <End Type="StudentRegistrationModel.Employee" Role="Employee" Multiplicity="*" />
+          <End Type="StudentRegistrationModel.Role" Role="Role" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -230,6 +317,32 @@
             </EndProperty>
             <EndProperty Name="Student">
               <ScalarProperty Name="StudentNum" ColumnName="Student_StudentNum" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Employees">
+            <EntityTypeMapping TypeName="StudentRegistrationModel.Employee">
+              <MappingFragment StoreEntitySet="Employee">
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="StudentRegistrationModel.Role">
+              <MappingFragment StoreEntitySet="Role">
+                <ScalarProperty Name="Role1" ColumnName="Role" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Employee_Role" TypeName="StudentRegistrationModel.Employee_Role" StoreEntitySet="Employee_Role">
+            <EndProperty Name="Role">
+              <ScalarProperty Name="Id" ColumnName="Role_Id" />
+            </EndProperty>
+            <EndProperty Name="Employee">
+              <ScalarProperty Name="Id" ColumnName="Employee_Id" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

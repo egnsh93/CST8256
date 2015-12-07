@@ -1,12 +1,12 @@
-﻿@model Lab10.ViewModels.CourseViewModel
+﻿@model Lab10.ViewModels.ManageViewModel
 @{
-    ViewBag.Title = "Course Management";
+    ViewBag.Title = "Manage Employees";
     ViewBag.HeaderImageSrc = @Url.Content("~/Content/images/SAT.png");
     ViewBag.HeaderImageAlt = "School of Advanced Technology";
 }
 
 <div class="page-header">
-    <h1>Course Management</h1>
+    <h1>Manage Employees</h1>
 </div>
 
 <div id="resultNotification" class="alert">
@@ -14,62 +14,24 @@
 </div>
 
 <div id="addCourseWrap">
-    @{ Html.RenderPartial("_AddCourse"); }
+    @{ Html.RenderPartial("_AddEmployee"); }
 </div>
 
 <div class="page-header" style="margin-top: 50px;">
-    <h3>Registered Courses</h3>
+    <h3>Registered Employees</h3>
 </div>
 
-@Html.AjaxGrid(Url.Action("List", "Course"))
+@Html.AjaxGrid(Url.Action("List", "Manage"))
 
 @section Scripts
 {
     <script type="text/javascript">
-        // Instantiate the MVC grid on page load
-        $(".mvc-grid").mvcgrid({
-            rowClicked: function(grid, row, data) {
-                $(row).siblings().removeClass('selected');
-                $(row).toggleClass('selected');
-
-                // If a row has been clicked
-                if ($(row).hasClass('selected')) {
-
-                    // Get the course ID of the selected table row
-                    var courseId = $(".selected .courseCode").text();
-
-                    // Make an AJAX get request and retrieve course data by ID
-                    $.ajax({
-                        type: "POST",
-                        url: "/Course/GetSelected",
-                        data: { courseId: courseId },
-                        dataType: "json",
-                        cache: false,
-                        success: function(result) {
-
-                            // Populate the form with the selected course fields
-                            $("#courseNumber").val(result.id);
-                            $("#courseName").val(result.name);
-                            $("#courseHours").val(result.hours);
-                            $("#Description").val(result.description);
-
-                            // Disable the course number field
-                            $("#courseNumber").prop("disabled", true);
-
-                        },
-                        error: function(xhr, status, error) {
-                            var err = eval("(" + xhr.responseText + ")");
-                            alert(err.Message);
-                        }
-                    });
-                }
-            }
-        });
-
         $(function() {
 
-            // When the course form is submitted
-            $("#submitCourse").submit(function(e) {
+            $(".mvc-grid").mvcgrid();
+
+            // When the employee form is submitted
+            $("#addEmployee").submit(function (e) {
 
                 e.preventDefault();
 
@@ -78,13 +40,13 @@
 
                     // Properties to send to controller
                     var properties = {
-                        Number: $("#courseNumber").val(),
-                        Name: $("#courseName").val(),
-                        WeeklyHours: $("#courseHours").val(),
-                        Description: $("#Description").val()
+                        Id: $("#Id").val(),
+                        Name: $("#Name").val(),
+                        Email: $("#Email").val(),
+                        Password: $("#Password").val()
                     };
 
-                    // Request to post the selected offering
+                    // Request to post the employee
                     $.post(this.action, properties, function(data) {
 
                             // Determine which alert type to display
@@ -102,34 +64,17 @@
                             $("#resultNotification").fadeOut("slow");
 
                             // Clear form fields
-                            $("#courseNumber").val("");
-                            $("#courseName").val("");
-                            $("#courseHours").val("");
-                            $("#Description").val("");
+                            $("#Id").val("");
+                            $("#Name").val("");
+                            $("#Email").val("");
+                            $("#Password").val("");
 
-                            // Reload the registered courses
+                            // Reload the registered employees
                             $(".mvc-grid").mvcgrid({
                                 reload: true
                             });
                         });
                 }
-            });
-
-            // When the cancel button is clicked
-            $("#cancel").click(function(e) {
-
-                // Disable selected row
-                $(".mvc-grid-row").removeClass('selected');
-
-                // Clear form fields
-                $("#courseNumber").val("");
-                $("#courseName").val("");
-                $("#courseHours").val("");
-                $("#Description").val("");
-
-                // Enable the course code field
-                $("#courseNumber").prop("disabled", false);
-
             });
         });
 
@@ -148,18 +93,18 @@
                 // Get the clicked table row
                 var tr = $(this).parent().parent();
 
-                // Get the course code of the current row
-                var courseId = tr.find(".courseCode").text();
+                // Get the employee id of the current row
+                var employeeId = tr.find(".employeeId").text();
 
                 // Delete course
                 $.ajax({
                     type: "POST",
-                    url: "/Course/Delete",
-                    data: { courseId: courseId },
+                    url: "/Manage/Delete",
+                    data: { employeeId: employeeId },
                     dataType: "json",
                     cache: false,
                     success: function(data) {
-                
+
                         // Determine which alert type to display
                         if (data.error === true) {
                             $("#resultNotification").removeClass("alert-success");
@@ -168,8 +113,8 @@
                             $("#resultNotification").removeClass("alert-danger");
                             $("#resultNotification").addClass("alert-success");
                         }
-                
-                        // Reload the registered courses
+
+                        // Reload the registered employees
                         tr.addClass("danger").fadeIn("slow");
                         tr.delay(500).fadeOut("slow", function () {
                             $(".mvc-grid").mvcgrid({
@@ -182,14 +127,11 @@
                         $("#resultNotification").fadeOut("slow");
 
                         // Clear form fields
-                        $("#courseNumber").val("");
-                        $("#courseName").val("");
-                        $("#courseHours").val("");
-                        $("#Description").val("");
-                
-                        // Disable the course number field
-                        $("#courseNumber").prop("disabled", false);
-                
+                        $("#Id").val("");
+                        $("#Name").val("");
+                        $("#Email").val("");
+                        $("#Password").val("");
+
                     },
                     error: function(xhr, status, error) {
                         var err = eval("(" + xhr.responseText + ")");

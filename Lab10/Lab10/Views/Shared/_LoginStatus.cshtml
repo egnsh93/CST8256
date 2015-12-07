@@ -1,0 +1,10 @@
+﻿@if (Request.IsAuthenticated)
+{
+    <span class="loggedin_user_name">Welcome back, @User.Identity.Name</span>
+    @Html.ActionLink("Logout", "Logout", "Account", null, new { @class = "logoutLink" });
+}
+else
+{
+    @Html.ActionLink("Login", "Login", "Account");
+}
+

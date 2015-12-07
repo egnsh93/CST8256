@@ -27,11 +27,14 @@
         <nav>
             <div class="menu-local-nav-container">
                 <ul id="menu-local-nav" class="menu">
-                    <li id="menu-item-3393" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-8 current_page_item menu-item-3393"><a href="http://www3.algonquincollege.com/sat/">Home</a></li>
+                    <li id="menu-item-3393" class="menu-item menu-item-type-post_type menu-item-object-page current-menu-item page_item page-item-8 current_page_item menu-item-3393"><a href="@Url.Action("Index", "Home")">Home</a></li>
                     <li id="menu-item-3479" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3479"><a href="http://www3.algonquincollege.com/sat/home/programs/">Programs</a></li>
                     <li id="menu-item-3375" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-3375"><a href="http://www3.algonquincollege.com/degree-pathways/list/">Degree Pathways</a></li>
                     <li id="menu-item-3395" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3395"><a href="http://www3.algonquincollege.com/sat/home/news-events/">News and Events</a></li>
                     <li id="menu-item-3394" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-3394"><a href="http://www3.algonquincollege.com/sat/home/contact-us/">Contact</a></li>
+                </ul>
+                <ul class="admin-menu">
+                    <li class="menu-item">@{ Html.RenderPartial("_LoginStatus"); }</li>
                 </ul>
             </div>
         </nav>
@@ -50,16 +53,35 @@
             <!-- /main -->
 
         </div><!-- /leftWrapper -->
-        <!-- begin sidebar -->
-        <aside id="sidebar" style="min-height: 160px;">
-            <section>
-                <div class="textwidget">
-                    <span class="button green"><a href="@Url.Action("Index", "Course")"><span><i class="icon-fnt_checkmark_rounded"></i></span>Course Management</a></span>
-                    <span class="button green"><a href="@Url.Action("Add", "CourseOffering")"><span><i class="icon-fnt_checkmark_rounded"></i></span>Add Course Offering</a></span>
-                    <span class="button green"><a href="@Url.Action("Add", "Student")"><span><i class="icon-fnt_checkmark_rounded"></i></span>Register Student</a></span>
-                </div>
-            </section>
-        </aside><!-- /sidebar -->
+        @if (Request.IsAuthenticated)
+        {
+            <!-- begin sidebar -->
+            <aside id="sidebar" style="min-height: 160px;">
+                <section>
+                    <div class="textwidget">
+                        @if (User.IsInRole("Department Chair"))
+                        {
+                            <span class="button green"><a href="@Url.Action("Index", "Course")"><span><i class="icon-fnt_checkmark_rounded"></i></span>Add Course</a></span>
+                            <span class="button green"><a href="@Url.Action("Add", "CourseOffering")"><span><i class="icon-fnt_checkmark_rounded"></i></span>Add Course Offering</a></span>
+                            <span class="button green"><a href="@Url.Action("Add", "Student")"><span><i class="icon-fnt_checkmark_rounded"></i></span>Register Student</a></span>
+                            <span class="button green"><a href="@Url.Action("Index", "Manage")"><span><i class="icon-fnt_checkmark_rounded"></i></span>Manage Employees</a></span>
+                        }
+
+                        @if (User.IsInRole("Coordinator"))
+                        {
+                            <span class="button green"><a href="@Url.Action("Index", "Course")"><span><i class="icon-fnt_checkmark_rounded"></i></span>Add Course</a></span>
+                            <span class="button green"><a href="@Url.Action("Add", "CourseOffering")"><span><i class="icon-fnt_checkmark_rounded"></i></span>Add Course Offering</a></span>
+                        }
+
+                        @if (User.IsInRole("Instructor"))
+                        {
+                            <span class="button green"><a href="@Url.Action("Add", "Student")"><span><i class="icon-fnt_checkmark_rounded"></i></span>Register Student</a></span>
+                        }
+                    </div>
+                </section>
+            </aside>
+            <!-- /sidebar -->
+        }
     </div><!-- /wrapper -->
     <!-- begin footer -->
     <footer style=" min-height: 250px;">

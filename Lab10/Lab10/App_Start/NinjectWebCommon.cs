@@ -64,6 +64,7 @@ namespace Lab10.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            kernel.Bind<IUserRepository>().To<UserRepository>();
             kernel.Bind<ICourseService>().To<CourseService>();
             kernel.Bind<ICourseRepository>().To<CourseRepository>();
             kernel.Bind<ICourseOfferingRepository>().To<CourseOfferingRepository>();
